@@ -1410,52 +1410,54 @@ body.dark-mode .note-box {
             display: inline-block;
         }
 
-.tg-cards {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-}
+        /* module card start */
+        .tg-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
 
-/* Tablet: 3 columns */
-@media (max-width: 1200px) {
-    .tg-cards {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
+        /* Tablet: 3 columns */
+        @media (max-width: 1200px) {
+            .tg-cards {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
 
-/* Small tablet: 2 columns */
-@media (max-width: 900px) {
-    .tg-cards {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
+        /* Small tablet: 2 columns */
+        @media (max-width: 900px) {
+            .tg-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
 
-/* Mobile: 1 column */
-@media (max-width: 600px) {
-    .tg-cards {
-        grid-template-columns: 1fr;
-    }
-}
+        /* Mobile: 1 column */
+        @media (max-width: 600px) {
+            .tg-cards {
+                grid-template-columns: 1fr;
+            }
+        }
 
-.module-card {
-    background: var(--white);
-    border-radius: 10px;
-    padding: 30px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-    border-left: 5px solid var(--accent);
-    transition: var(--transition);
-}
+        .module-card {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid var(--accent);
+            transition: var(--transition);
+        }
 
-.module-card:hover {
-    transform: translateX(10px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-}
+        .module-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
 
-.module-title {
-    font-size: 1.4rem;
-    color: var(--primary-dark);
-    margin-bottom: 15px;
-}
+        .module-title {
+            font-size: 1.4rem;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+        }
+        /* module card end */
         
         .skills-list {
             list-style: none;
@@ -1509,15 +1511,17 @@ body.dark-mode .note-box {
             gap: 20px;
             margin: 30px 0;
         }
-        
+
         .meta-card {
-            background: white;
+            background: var(--white); /* Now uses dark mode variable */
             padding: 25px;
             border-radius: 8px;
             text-align: center;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow); /* Now uses dark mode variable */
+            color: var(--text); /* Ensure text color adapts */
+            transition: var(--transition);
         }
-        
+
         .meta-card i {
             font-size: 2rem;
             color: var(--primary);
