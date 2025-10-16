@@ -1537,87 +1537,88 @@ body.dark-mode .note-box {
             margin: 50px 0;
         }
         
-/* Timings Section Styles */
-.timings-section {
-    background: linear-gradient(135deg, var(--timing-gradient-start, #FC466B) 0%, var(--timing-gradient-end, #3F5EFB) 100%);
-    color: var(--timing-text, white);
-    padding: 50px 0;
-    border-radius: 15px;
-    margin: 40px 0;
-}
+        /* Timings Section Styles */
+        .timings-section {
+            background: linear-gradient(135deg, var(--timing-gradient-start, #196b91) 0%, var(--timing-gradient-end, #727fc2) 100%);
+            color: var(--timing-text, white);
+            padding: 50px 0;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
 
-.timing-slots {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    margin-top: 30px;
-}
+        .timing-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
 
-.timing-slot {
-    background: var(--timing-slot-bg, rgba(255, 255, 255, 0.1));
-    padding: 25px;
-    border-radius: 10px;
-    text-align: center;
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--timing-slot-border, rgba(255, 255, 255, 0.2));
-    transition: var(--transition);
-    color: var(--timing-text, white);
-}
+        .timing-slot {
+            background: var(--timing-slot-bg, rgba(255, 255, 255, 0.1));
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--timing-slot-border, rgba(255, 255, 255, 0.2));
+            transition: var(--transition);
+            color: var(--timing-text, white);
+        }
 
-.timing-slot:hover {
-    transform: translateY(-5px);
-    background: var(--timing-slot-hover, rgba(255, 255, 255, 0.2));
-}
+        .timing-slot:hover {
+            transform: translateY(-5px);
+            background: var(--timing-slot-hover, rgba(255, 255, 255, 0.2));
+        }
 
-.timing-slot i {
-    font-size: 2rem;
-    margin-bottom: 15px;
-    color: var(--timing-icon, var(--accent));
-}
+        .timing-slot i {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--timing-icon, var(--accent));
+        }
 
-.timing-slot h4 {
-    font-size: 1.1rem;
-    margin-bottom: 10px;
-    color: var(--timing-text, white);
-}
+        .timing-slot h4 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--timing-text, white);
+        }
 
-.timing-slot .time {
-    font-size: 1.3rem;
-    font-weight: bold;
-    margin: 10px 0;
-    color: var(--timing-text, white);
-}
+        .timing-slot .time {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 10px 0;
+            color: var(--timing-text, white);
+        }
 
-.timing-slot .availability {
-    font-size: 0.9rem;
-    opacity: 0.9;
-    color: var(--timing-text, white);
-}
+        .timing-slot .availability {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            color: var(--timing-text, white);
+        }
 
-.timings-title {
-    color: var(--timing-text, white);
-    text-align: center;
-    margin-bottom: 10px;
-}
+        .timings-title {
+            color: var(--timing-text, white);
+            text-align: center;
+            margin-bottom: 10px;
+        }
 
-.timings-subtitle {
-    text-align: center;
-    opacity: 0.9;
-    margin-bottom: 30px;
-    color: var(--timing-text, white);
-}
+        .timings-subtitle {
+            text-align: center;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            color: var(--timing-text, white);
+        }
 
-.timings-note {
-    text-align: center;
-    margin-top: 30px;
-    color: var(--timing-text, white);
-}
+        .timings-note {
+            text-align: center;
+            margin-top: 30px;
+            color: var(--timing-text, white);
+        }
 
-.timings-note i {
-    color: var(--timing-icon, var(--accent));
-    margin-right: 8px;
-}
-        
+        .timings-note i {
+            color: var(--timing-icon, var(--accent));
+            margin-right: 8px;
+        }
+        /* Timing Section End */
+
         .badge {
             display: inline-block;
             padding: 8px 15px;
