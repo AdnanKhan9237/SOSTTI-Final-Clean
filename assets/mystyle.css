@@ -1409,44 +1409,53 @@ body.dark-mode .note-box {
             margin-bottom: 30px;
             display: inline-block;
         }
-        
-        .module-card {
-            background: var(--white);
-            border-radius: 10px;
-            padding: 30px;
-            margin-bottom: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            border-left: 5px solid var(--accent);
-            transition: var(--transition);
-        }
-        
-        .module-card:hover {
-            transform: translateX(10px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-        }
-        
-        .module-number {
-            display: inline-block;
-            background: var(--accent);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 40px;
-            font-weight: bold;
-            margin-right: 15px;
-        }
-        
-        .module-title {
-            font-size: 1.4rem;
-            color: var(--primary-dark);
-            margin-bottom: 15px;
-        }
-        
-        .module-content {
-            margin-left: 55px;
-        }
+
+.tg-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+/* Tablet: 3 columns */
+@media (max-width: 1200px) {
+    .tg-cards {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Small tablet: 2 columns */
+@media (max-width: 900px) {
+    .tg-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobile: 1 column */
+@media (max-width: 600px) {
+    .tg-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+.module-card {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    border-left: 5px solid var(--accent);
+    transition: var(--transition);
+}
+
+.module-card:hover {
+    transform: translateX(10px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+.module-title {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-bottom: 15px;
+}
         
         .skills-list {
             list-style: none;
