@@ -354,6 +354,7 @@ document.addEventListener("DOMContentLoaded", () => {
             left: 0;
             width: 100%;
             height: 100%;
+            background-color: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(3px);
             display: flex;
             justify-content: center;
