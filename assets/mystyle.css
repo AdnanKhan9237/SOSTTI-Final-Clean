@@ -1385,7 +1385,7 @@ body.dark-mode .note-box {
 
 /* Courses CSS */
         .course-hero {
-            background: linear-gradient(rgba(0, 174, 255, 0.9), rgba(1, 99, 144, 0.9)), url('../../images/computerOperator-01.jpg');
+            background: linear-gradient(rgba(0, 174, 255, 0.9), rgba(1, 99, 144, 0.9));
             background-size: cover;
             background-position: center;
             color: white;
