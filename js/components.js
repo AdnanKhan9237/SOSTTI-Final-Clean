@@ -364,7 +364,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         #loader-logo {
-            width: 120px;
             animation: pulse 1.5s infinite ease-in-out;
         }
 
