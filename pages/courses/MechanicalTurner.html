@@ -12,226 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/mystyle.css">
-    
-    <style>
-        .course-hero {
-            background: linear-gradient(rgba(0, 174, 255, 0.9), rgba(1, 99, 144, 0.9)), url('../../images/computerOperator-01.jpg');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 120px 0 60px;
-            text-align: center;
-        }
-        
-        .course-content {
-            padding: 50px 0;
-            background: var(--white);
-        }
-        
-        .course-section {
-            margin-bottom: 50px;
-        }
-        
-        .course-section h2 {
-            color: var(--primary-dark);
-            border-bottom: 3px solid var(--accent);
-            padding-bottom: 10px;
-            margin-bottom: 30px;
-            display: inline-block;
-        }
-        
-        .module-card {
-            background: var(--white);
-            border-radius: 10px;
-            padding: 30px;
-            margin-bottom: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            border-left: 5px solid var(--accent);
-            transition: var(--transition);
-        }
-        
-        .module-card:hover {
-            transform: translateX(10px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-        }
-        
-        .module-number {
-            display: inline-block;
-            background: var(--accent);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 40px;
-            font-weight: bold;
-            margin-right: 15px;
-        }
-        
-        .module-title {
-            font-size: 1.4rem;
-            color: var(--primary-dark);
-            margin-bottom: 15px;
-        }
-        
-        .module-content {
-            margin-left: 55px;
-        }
-        
-        .skills-list {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .skills-list li {
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-            position: relative;
-            padding-left: 25px;
-        }
-        
-        .skills-list li:before {
-            content: '▸';
-            color: var(--accent);
-            font-weight: bold;
-            position: absolute;
-            left: 0;
-        }
-        
-        .course-highlights {
-            background: var(--light);
-            padding: 40px;
-            border-radius: 10px;
-            margin: 30px 0;
-        }
-        
-        .highlight-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .highlight-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 20px;
-            font-size: 1.2rem;
-        }
-        
-        .course-meta-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-        
-        .meta-card {
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-        
-        .meta-card i {
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-        
-        .cta-section {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            padding: 60px 0;
-            text-align: center;
-            border-radius: 15px;
-            margin: 50px 0;
-        }
-        
-        /* Timings Section Styles */
-        .timings-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 50px 0;
-            border-radius: 15px;
-            margin: 40px 0;
-        }
-        
-        .timing-slots {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-        
-        .timing-slot {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 25px;
-            border-radius: 10px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: var(--transition);
-        }
-        
-        .timing-slot:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.2);
-        }
-        
-        .timing-slot i {
-            font-size: 2rem;
-            margin-bottom: 15px;
-            color: var(--accent);
-        }
-        
-        .timing-slot h4 {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-        }
-        
-        .timing-slot .time {
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-        
-        .timing-slot .availability {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-        
-        .badge {
-            display: inline-block;
-            padding: 8px 15px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            margin: 5px;
-            font-size: 0.85rem;
-            backdrop-filter: blur(10px);
-        }
-        
-        @media (max-width: 768px) {
-            .module-content {
-                margin-left: 0;
-                margin-top: 15px;
-            }
-            
-            .course-hero {
-                padding: 100px 0 40px;
-            }
-            
-            .timing-slots {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
 </head>
 <body>
     <!-- Header Container -->
@@ -241,13 +21,13 @@
     <section class="course-hero">
         <div class="container">
             <h1 style="color: #eee;">Mechanical Turner Course</h1>
-            <!-- <p class="lead">Master essential computer skills for modern office environments</p>
+            <p class="lead">Gain hands-on expertise in operating lathes and precision machinery to produce high-quality mechanical components.</p>
             <div class="course-badges">
                 <span class="badge"><i class="fas fa-clock"></i> 6 Months</span>
                 <span class="badge"><i class="fas fa-certificate"></i> CBT Level-II</span>
                 <span class="badge"><i class="fas fa-user-graduate"></i> NAVTTC Certified</span>
                 <span class="badge"><i class="fas fa-calendar-alt"></i> Multiple Batches</span>
-            </div> -->
+            </div>
         </div>
     </section>
 
@@ -257,7 +37,73 @@
             <!-- Course Overview -->
             <div class="course-section">
                 <h2>Course Overview</h2>
+                <p>The <strong>Mechanical Turner Course</strong> provides comprehensive training in precision machining using conventional lathes and related machine tools. Students learn to read technical drawings, measure tolerances, set up workpieces, and produce accurate components for industrial and mechanical applications. The course also     emphasizes safety practices, machine maintenance, and the use of measuring instruments to ensure high-quality production.</p>
 
+                <div class="course-meta-grid">
+                    <div class="meta-card">
+                        <i class="fas fa-laptop-code"></i>
+                        <h4>Hands-on Training</h4>
+                        <p>Practical sessions with industry-standard software</p>
+                    </div>
+                    <div class="meta-card">
+                        <i class="fas fa-briefcase"></i>
+                        <h4>Job Ready</h4>
+                        <p>Skills directly applicable to office environments</p>
+                    </div>
+                    <div class="meta-card">
+                        <i class="fas fa-clock"></i>
+                        <h4>Flexible Timings</h4>
+                        <p>Multiple batches to suit your schedule</p>
+                    </div>
+                    <div class="meta-card">
+                        <i class="fas fa-certificate"></i>
+                        <h4>Certification</h4>
+                        <p>NAVTTC recognized CBT Level-II certificate</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Curriculum -->
+            <div class="course-section">
+                <h2>Course Curriculum</h2>
+                <p>Our comprehensive curriculum is divided into 7 modules</p>
+
+                <div class="tg-cards">
+                    <!-- Module 1 -->
+                    <div class="module-card">
+                        <h3 class="module-title">Perform Preventive Maintenance</h3>
+                    </div>
+
+                    <!-- Module 2 -->
+                    <div class="module-card">
+                        <h3 class="module-title">Maintain Fuel and Exhaust and Cooling System</h3>
+                    </div>
+
+                    <!-- Module 3 -->
+                    <div class="module-card">
+                        <h3 class="module-title">Maintain Ignition System</h3>
+                    </div>
+
+                    <!-- Module 4 -->
+                    <div class="module-card">
+                        <h3 class="module-title">Service Chassis</h3>
+                    </div>
+
+                    <!-- Module 5 -->
+                    <div class="module-card">
+                        <h3 class="module-title">Maintain Electrical System</h3>
+                    </div>
+
+                    <!-- Module 6 -->
+                    <div class="module-card">
+                        <h3 class="module-title">Maintain Safe Work Environment</h3>
+                    </div>
+
+                    <!-- Module 7 -->
+                    <div class="module-card">
+                        <h3 class="module-title">Demonstrate Communication Skills</h3>
+                    </div>
+                </div>
             </div>
 
             <!-- Batch Timings Section -->
@@ -285,6 +131,74 @@
                     
                     <div style="text-align: center; margin-top: 30px;">
                         <p><i class="fas fa-info-circle"></i> <strong>Note:</strong> All batches include the same comprehensive curriculum and certification</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Highlights -->
+            <div class="course-highlights">
+                <h3>Why Choose This Course?</h3>
+                <div class="highlight-item">
+                    <div class="highlight-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <div>
+                        <h4>Industry-Relevant Curriculum</h4>
+                        <p>Our course content is regularly updated to match current industry requirements and office automation trends.</p>
+                    </div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div>
+                        <h4>Experienced Instructors</h4>
+                        <p>Learn from industry professionals with years of experience in office automation and computer operations.</p>
+                    </div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div>
+                        <h4>Flexible Schedule</h4>
+                        <p>Choose from multiple batch timings that fit your daily routine and commitments.</p>
+                    </div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div>
+                        <h4>Career Support</h4>
+                        <p>Get assistance with job placement and career guidance upon course completion.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Career Opportunities -->
+            <div class="course-section">
+                <h2>Career Opportunities for Mechanical Turner</h2>
+                <p>
+                    Graduates of the <strong>Mechanical Turner Course</strong> can find employment in various manufacturing and 
+                    engineering industries, where precision machining and component fabrication are in demand.
+                </p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="skills-list">
+                            <li>Mechanical Turner</li>
+                            <li>Lathe Machine Operator</li>
+                            <li>Machinist</li>
+                            <li>Maintenance Technician</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="skills-list">
+                            <li>Workshop Assistant</li>
+                            <li>Tool Room Technician</li>
+                            <li>Production Machine Operator</li>
+                            <li>Self-Employed Turner / Machining Contractor</li>
+                        </ul>
                     </div>
                 </div>
             </div>
