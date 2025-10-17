@@ -1,13 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Create popup HTML with overlay
+  // Create popup HTML
   const popupHTML = `
-    <div id="popupOverlay">
-      <div id="applyPopup" aria-modal="true" aria-labelledby="popupTitle">
-        <div id="popupContent">
-          <button id="closePopup" aria-label="Close popup">&times;</button>
-          <h2 id="popupTitle">Ready to Join?</h2>
-          <button id="applyNow">Apply Now</button>
-        </div>
+    <div id="applyPopup" aria-modal="true" aria-labelledby="popupTitle">
+      <div id="popupContent">
+        <button id="closePopup" aria-label="Close popup">&times;</button>
+        <h2 id="popupTitle">Ready to Join?</h2>
+        <button id="applyNow">Apply Now</button>
       </div>
     </div>
   `;
@@ -18,24 +16,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // Inject CSS
   const style = document.createElement("style");
   style.textContent = `
-    #popupOverlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 9998;
-      display: none;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    #popupOverlay.show {
-      display: block;
-      opacity: 1;
-    }
-
     #applyPopup {
       position: fixed;
       top: 50%;
@@ -50,11 +30,13 @@ document.addEventListener("DOMContentLoaded", function () {
       width: 90%;
       max-width: 400px;
       opacity: 0;
+      visibility: hidden;
       transition: all 0.4s ease;
     }
 
     #applyPopup.show {
       opacity: 1;
+      visibility: visible;
     }
 
     #popupContent {
@@ -112,15 +94,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     #applyPopup.minimized {
-      top: auto;
-      left: 20px;
-      bottom: 20px;
-      transform: none;
+      top: auto !important;
+      left: 20px !important;
+      bottom: 20px !important;
+      transform: none !important;
       width: 180px;
-      padding: 15px;
+      height: 60px;
+      padding: 10px;
       border-radius: 10px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
       opacity: 1;
+      visibility: visible;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
     }
 
     #applyPopup.minimized h2 {
@@ -131,6 +119,12 @@ document.addEventListener("DOMContentLoaded", function () {
       display: none;
     }
 
+    #applyPopup.minimized #applyNow {
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      width: 100%;
+    }
+
     @media (max-width: 768px) {
       #applyPopup {
         width: 85%;
@@ -139,9 +133,9 @@ document.addEventListener("DOMContentLoaded", function () {
       
       #applyPopup.minimized {
         width: 160px;
-        left: 10px;
-        bottom: 10px;
-        padding: 12px;
+        left: 10px !important;
+        bottom: 10px !important;
+        height: 50px;
       }
       
       #popupContent h2 {
@@ -157,6 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
       
       #applyPopup.minimized {
         width: 140px;
+        height: 45px;
       }
       
       #popupContent h2 {
@@ -171,10 +166,12 @@ document.addEventListener("DOMContentLoaded", function () {
   `;
   document.head.appendChild(style);
 
-  const popupOverlay = document.getElementById("popupOverlay");
   const popup = document.getElementById("applyPopup");
   const closeBtn = document.getElementById("closePopup");
   const applyBtn = document.getElementById("applyNow");
+
+  let hasPopupBeenShown = false;
+  let hasPopupBeenMinimized = false;
 
   // Throttle function for scroll performance
   function throttle(func, limit) {
@@ -192,88 +189,67 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Show popup function
   function showPopup() {
-    popupOverlay.classList.add('show');
-    popup.classList.add('show');
-    // Trap focus inside popup for accessibility
-    popup.setAttribute('tabindex', '0');
-    popup.focus();
+    if (!hasPopupBeenMinimized) {
+      popup.classList.add('show');
+      hasPopupBeenShown = true;
+    }
   }
 
-  // Hide popup function (minimize)
-  function hidePopup() {
+  // Minimize popup function
+  function minimizePopup() {
     popup.classList.add('minimized');
-    // Remove overlay when minimized
-    setTimeout(() => {
-      popupOverlay.classList.remove('show');
-    }, 300);
+    popup.classList.remove('show');
+    hasPopupBeenMinimized = true;
   }
 
-  // Show popup after 70% scroll - REMOVED SESSION STORAGE CHECK
+  // Expand minimized popup
+  function expandPopup() {
+    if (popup.classList.contains('minimized')) {
+      popup.classList.remove('minimized');
+      popup.classList.add('show');
+      hasPopupBeenMinimized = false;
+    }
+  }
+
+  // Show popup only after 70% scroll
   const scrollHandler = throttle(function () {
+    if (hasPopupBeenShown || hasPopupBeenMinimized) return;
+    
     const scrollPercent = ((window.scrollY + window.innerHeight) / document.body.scrollHeight) * 100;
     
-    if (scrollPercent >= 70 && !popup.classList.contains('minimized') && !popupOverlay.classList.contains('show')) {
+    if (scrollPercent >= 70) {
       showPopup();
     }
   }, 100);
 
   window.addEventListener("scroll", scrollHandler);
 
-  // Also show popup after 5 seconds if user hasn't scrolled
-  setTimeout(() => {
-    if (!popup.classList.contains('minimized') && !popupOverlay.classList.contains('show')) {
-      showPopup();
-    }
-  }, 5000);
-
   // Close (minimize) popup
-  closeBtn.addEventListener("click", hidePopup);
-
-  // Close popup when clicking on overlay
-  popupOverlay.addEventListener("click", function(e) {
-    if (e.target === popupOverlay) {
-      hidePopup();
-    }
-  });
-
-  // Close with Escape key
-  document.addEventListener("keydown", function(e) {
-    if (e.key === "Escape" && popupOverlay.classList.contains('show')) {
-      hidePopup();
-    }
+  closeBtn.addEventListener("click", function(e) {
+    e.stopPropagation();
+    minimizePopup();
   });
 
   // Apply Now button
-  applyBtn.addEventListener("click", function () {
+  applyBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
     window.open(
       "https://docs.google.com/forms/d/e/1FAIpQLSdnJItkIMyt3SGNaDeTBDcMTBKNeKJ4lC8cx3wxSOvjpciX4g/viewform",
       "_blank"
     );
-    // Optionally minimize after applying
-    hidePopup();
   });
 
-  // Handle minimized popup click to expand
+  // Click on minimized popup to expand
   popup.addEventListener('click', function(e) {
-    if (popup.classList.contains('minimized') && e.target !== applyBtn) {
-      popup.classList.remove('minimized');
-      showPopup();
+    if (popup.classList.contains('minimized')) {
+      expandPopup();
     }
   });
 
-  // Prevent body scroll when popup is open
-  const originalOverflow = document.body.style.overflow;
-  const observer = new MutationObserver(function(mutations) {
-    mutations.forEach(function(mutation) {
-      if (mutation.attributeName === 'class') {
-        if (popupOverlay.classList.contains('show')) {
-          document.body.style.overflow = 'hidden';
-        } else {
-          document.body.style.overflow = originalOverflow;
-        }
-      }
-    });
+  // Close with Escape key only when expanded
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape" && popup.classList.contains('show') && !popup.classList.contains('minimized')) {
+      minimizePopup();
+    }
   });
-
-  observer.observe(popupOverlay, { attributes: true });
 });
