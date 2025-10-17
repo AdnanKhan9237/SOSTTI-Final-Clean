@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-    // Run only on the Courses page
-    if (window.location.pathname === "/pages/courses" || window.location.pathname === "/pages/courses/") {
+    // ✅ Works for any page inside /pages/courses/
+    if (window.location.pathname.includes("/pages/courses/")) {
 
         const scrollTrigger = 40; // trigger after 40% scroll
         let popupShown = false;
