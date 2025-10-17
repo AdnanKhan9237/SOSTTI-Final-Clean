@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // ✅ Works for any page inside /pages/courses/
     if (window.location.pathname.includes("/pages/courses/")) {
 
-        const scrollTrigger = 40; // trigger after 40% scroll
+        const scrollTrigger = 70; // trigger after 40% scroll
         let popupShown = false;
 
         window.addEventListener("scroll", function() {
@@ -45,11 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         animation: scaleUp 0.3s ease;
                         position: relative;
                     ">
-                        <h2 style="margin-bottom: 10px; color: #222;">Apply Now</h2>
-                        <p style="color: #555; font-size: 15px; line-height: 1.5; margin-bottom: 25px;">
-                            Ready to join SOS Technical Training Institute?<br>
-                            Fill out our quick Google Form to apply for your desired course.
-                        </p>
+                        <h2 style="margin-bottom: 10px; color: #222;">Ready to join SOS Technical Training Institute?</h2>
                         <a href="https://docs.google.com/forms/d/e/1FAIpQLSdnJItkIMyt3SGNaDeTBDcMTBKNeKJ4lC8cx3wxSOvjpciX4g/viewform"
                            target="_blank"
                            style="
