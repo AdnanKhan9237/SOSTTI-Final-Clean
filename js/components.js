@@ -363,10 +363,6 @@ document.addEventListener("DOMContentLoaded", () => {
             transition: opacity 0.6s ease, visibility 0.6s ease;
         }
 
-        #loader-logo {
-            animation: pulse 1.5s infinite ease-in-out;
-        }
-
         .loading-dots::after {
             content: '';
             animation: dots 0.5s infinite;
