@@ -354,7 +354,6 @@ document.addEventListener("DOMContentLoaded", () => {
             left: 0;
             width: 100%;
             height: 100%;
-            backdrop-filter: blur(5px);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -368,7 +367,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         .loading-dots::after {
             content: '';
-            animation: dots 1.5s infinite;
+            animation: dots 0.5s infinite;
         }
 
         @keyframes pulse {
