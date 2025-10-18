@@ -36,39 +36,15 @@ document.addEventListener("DOMContentLoaded", function () {
   // Inject CSS
   const style = document.createElement("style");
   style.textContent = `
-    :root {
-      --bg-color: #fff;
-      --text-color: #333;
-      --primary-color: #007bff;
-      --primary-hover: #0056b3;
-      --border-color: #e0e0e0;
-      --batch-bg: #f8f9fa;
-      --close-bg: #fff;
-      --close-color: #888;
-      --shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
-    }
-
-    .dark-mode {
-      --bg-color: #1e1e1e;
-      --text-color: #f0f0f0;
-      --primary-color: #4a9dff;
-      --primary-hover: #2d8cff;
-      --border-color: #444;
-      --batch-bg: #2d2d2d;
-      --close-bg: #1e1e1e;
-      --close-color: #b0b0b0;
-      --shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
-    }
-
     #applyPopup {
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: var(--bg-color);
+      background: var(--bg-primary, #fff);
       padding: 30px;
       border-radius: 15px;
-      box-shadow: var(--shadow);
+      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
       text-align: center;
       z-index: 9999;
       width: 90%;
@@ -76,7 +52,8 @@ document.addEventListener("DOMContentLoaded", function () {
       opacity: 0;
       visibility: hidden;
       transition: all 0.4s ease;
-      color: var(--text-color);
+      color: var(--text-primary, #333);
+      border: 1px solid var(--border-color, #e0e0e0);
     }
 
     #applyPopup.show {
@@ -91,17 +68,17 @@ document.addEventListener("DOMContentLoaded", function () {
     #popupContent h2 {
       margin-bottom: 20px;
       font-size: 1.6rem;
-      color: var(--text-color);
+      color: var(--text-primary, #333);
       margin-top: 0;
     }
 
     #batchInfo {
       text-align: left;
       margin-bottom: 25px;
-      background: var(--batch-bg);
+      background: var(--bg-secondary, #f8f9fa);
       padding: 15px;
       border-radius: 8px;
-      border-left: 4px solid var(--primary-color);
+      border-left: 4px solid var(--accent-color, #007bff);
     }
 
     .course-type {
@@ -114,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     .course-type h3 {
       font-size: 1rem;
-      color: var(--primary-color);
+      color: var(--accent-color, #007bff);
       margin-bottom: 8px;
       font-weight: 600;
     }
@@ -128,20 +105,20 @@ document.addEventListener("DOMContentLoaded", function () {
     .course-type li {
       padding: 4px 0;
       font-size: 0.9rem;
-      color: var(--text-color);
+      color: var(--text-primary, #333);
       position: relative;
       padding-left: 15px;
     }
 
     .course-type li:before {
       content: "•";
-      color: var(--primary-color);
+      color: var(--accent-color, #007bff);
       position: absolute;
       left: 0;
     }
 
     #applyNow {
-      background: var(--primary-color);
+      background: var(--accent-color, #007bff);
       color: white;
       border: none;
       padding: 12px 30px;
@@ -154,7 +131,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     #applyNow:hover {
-      background: var(--primary-hover);
+      background: var(--accent-color, #0056b3);
+      filter: brightness(0.9);
       transform: translateY(-2px);
     }
 
@@ -162,14 +140,14 @@ document.addEventListener("DOMContentLoaded", function () {
       position: absolute;
       top: -10px;
       right: -10px;
-      background: var(--close-bg);
-      border: none;
+      background: var(--bg-primary, #fff);
+      border: 1px solid var(--border-color, #e0e0e0);
       width: 30px;
       height: 30px;
       border-radius: 50%;
       font-size: 18px;
       cursor: pointer;
-      color: var(--close-color);
+      color: var(--text-secondary, #888);
       transition: all 0.3s;
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
       display: flex;
@@ -179,8 +157,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     #closePopup:hover {
-      color: var(--text-color);
-      background: var(--batch-bg);
+      color: var(--text-primary, #333);
+      background: var(--bg-secondary, #f8f9fa);
       transform: scale(1.1);
     }
 
@@ -220,21 +198,6 @@ document.addEventListener("DOMContentLoaded", function () {
       width: 100%;
     }
 
-    /* Dark mode toggle button */
-    .dark-mode-toggle {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: var(--primary-color);
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 8px;
-      cursor: pointer;
-      z-index: 10000;
-      font-size: 0.9rem;
-    }
-
     @media (max-width: 768px) {
       #applyPopup {
         width: 85%;
@@ -250,13 +213,6 @@ document.addEventListener("DOMContentLoaded", function () {
       
       #popupContent h2 {
         font-size: 1.4rem;
-      }
-      
-      .dark-mode-toggle {
-        top: 10px;
-        right: 10px;
-        padding: 8px 12px;
-        font-size: 0.8rem;
       }
     }
 
@@ -316,19 +272,12 @@ document.addEventListener("DOMContentLoaded", function () {
   `;
   document.head.appendChild(style);
 
-  // Add dark mode toggle button
-  const darkModeToggle = document.createElement('button');
-  darkModeToggle.className = 'dark-mode-toggle';
-  darkModeToggle.textContent = 'Toggle Dark Mode';
-  document.body.appendChild(darkModeToggle);
-
   const popup = document.getElementById("applyPopup");
   const closeBtn = document.getElementById("closePopup");
   const applyBtn = document.getElementById("applyNow");
 
   let hasPopupBeenShown = false;
   let hasPopupBeenMinimized = false;
-  let isDarkMode = false;
 
   // Throttle function for scroll performance
   function throttle(func, limit) {
@@ -365,16 +314,6 @@ document.addEventListener("DOMContentLoaded", function () {
       popup.classList.remove('minimized');
       popup.classList.add('show');
       hasPopupBeenMinimized = false;
-    }
-  }
-
-  // Toggle dark mode
-  function toggleDarkMode() {
-    isDarkMode = !isDarkMode;
-    if (isDarkMode) {
-      document.body.classList.add('dark-mode');
-    } else {
-      document.body.classList.remove('dark-mode');
     }
   }
 
@@ -419,7 +358,4 @@ document.addEventListener("DOMContentLoaded", function () {
       minimizePopup();
     }
   });
-
-  // Dark mode toggle
-  darkModeToggle.addEventListener('click', toggleDarkMode);
 });
