@@ -57,8 +57,51 @@
   const loadData = (list) => {
     const seen = new Set();
     resources = list.filter(x => x && x.url && /\.pdf(\?|$)/i.test(x.url) && !seen.has(x.url) && (seen.add(x.url) || true));
-    if (resources.length > 100) resources = resources.slice(0,100);
-    base = resources;
+
+    const categories = ['computer','graphics','web','cyber','ai','english','auto','hvacr','welding','motorcycle','machinist','electrician','mobile','solar'];
+    const used = new Set();
+    const buckets = {};
+    categories.forEach(c => buckets[c] = []);
+    resources.forEach(r => {
+      (r.tags || []).forEach(t => { if (buckets[t]) buckets[t].push(r); });
+    });
+
+    base = [];
+    // Ensure at least one per category if possible
+    categories.forEach(c => {
+      const arr = buckets[c];
+      if (arr && arr.length) {
+        const item = arr.find(x => !used.has(x.url));
+        if (item) { base.push(item); used.add(item.url); }
+      }
+    });
+
+    // Round-robin fill to 50
+    let idx = 0;
+    while (base.length < 50) {
+      const c = categories[idx % categories.length];
+      const arr = buckets[c];
+      const next = arr && arr.find(x => !used.has(x.url));
+      if (next) { base.push(next); used.add(next.url); }
+      idx++;
+      if (idx > 2000) break;
+      if (idx % categories.length === 0) {
+        let anyLeft = false;
+        for (const cat of categories) {
+          if (buckets[cat] && buckets[cat].some(x => !used.has(x.url))) { anyLeft = true; break; }
+        }
+        if (!anyLeft) break;
+      }
+    }
+
+    // Fill from remaining if still short
+    if (base.length < 50) {
+      for (const r of resources) {
+        if (base.length >= 50) break;
+        if (!used.has(r.url)) { base.push(r); used.add(r.url); }
+      }
+    }
+
     render(base);
   };
   if (window.OPEN_PDFS && Array.isArray(window.OPEN_PDFS)) {
