@@ -51,24 +51,39 @@ function Get-PdfLinksFromPage {
 
 # Seeds by category (reputable open-access domains)
 $seeds = @(
+  # Cyber / Security
   @{ Tag="cyber"; Url="https://csrc.nist.gov/publications/sp800" },
+  # AI / ML
   @{ Tag="ai"; Url="https://mml-book.github.io/" },
   @{ Tag="ai"; Url="https://d2l.ai/" },
+  @{ Tag="ai"; Url="https://www.cs.cornell.edu/jeh/" },
+  # Computer / OS / Programming
   @{ Tag="computer"; Url="https://pages.cs.wisc.edu/~remzi/OSTEP/" },
   @{ Tag="computer"; Url="http://linuxcommand.org/tlcl.php" },
   @{ Tag="web"; Url="https://eloquentjavascript.net/" },
   @{ Tag="computer"; Url="http://opendatastructures.org/" },
   @{ Tag="computer"; Url="https://greenteapress.com/" },
   @{ Tag="computer"; Url="https://github.com/progit/progit2/releases" },
-  @{ Tag="ai"; Url="https://www.cs.cornell.edu/jeh/" },
+  # Electrician / Navy manuals / Maritime PDFs
   @{ Tag="electrician"; Url="https://www.navsea.navy.mil/Home/Warfighter-Training/NAVEDTRA/" },
   @{ Tag="electrician"; Url="https://maritime.org/doc/" },
+  # Solar / Renewable
   @{ Tag="solar"; Url="https://www.nrel.gov/publications.html" },
   @{ Tag="solar"; Url="https://www.nrel.gov/research/publications.html" },
+  @{ Tag="solar"; Url="https://www.nrel.gov/docs/" },
+  # HVACR
+  @{ Tag="hvacr"; Url="https://www.energy.gov/sites/default/files/2023-" },
   @{ Tag="hvacr"; Url="https://www.energy.gov/eere/buildings/building-energy-codes-program" },
+  # Welding / Safety
   @{ Tag="welding"; Url="https://www.osha.gov/publications" },
-  @{ Tag="auto"; Url="https://www.nhtsa.gov/vehicle-manufacturers" },
+  # Automobile / Motorcycle
+  @{ Tag="auto"; Url="https://www.nhtsa.gov/sites/nhtsa.gov/files/documents/" },
+  @{ Tag="motorcycle"; Url="https://www.nhtsa.gov/sites/nhtsa.gov/files/documents/" },
+  # Machinist / Shop safety
   @{ Tag="machinist"; Url="https://www.osha.gov/sites/default/files/publications.html" },
+  # Mobile (device security)
+  @{ Tag="mobile"; Url="https://nvlpubs.nist.gov/nistpubs/" },
+  # English / Communication
   @{ Tag="english"; Url="https://www.plainlanguage.gov/resources/" }
 )
 
