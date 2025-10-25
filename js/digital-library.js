@@ -67,6 +67,78 @@
     fetch('../js/resources-open.json').then(r => r.json()).then(loadData).catch(() => render([]));
   }
 
+  // Ensure underrepresented courses have at least a few items
+  function ensureCategory(tag, items) {
+    const has = base.some(r => (r.tags || []).includes(tag));
+    if (!has) {
+      const seen = new Set(base.map(r => r.url));
+      items.forEach(it => { if (!seen.has(it.url)) { base.push(it); seen.add(it.url); } });
+      if (base.length > 100) base = base.slice(0,100);
+      render(base);
+    }
+  }
+  const curated = {
+    graphics: [
+      { title: 'NASA Graphics Standards Manual', iconClass: 'fa-solid fa-palette', url: 'https://www.nasa.gov/wp-content/uploads/2019/08/nasa-graphics-standards-manual.pdf', tags: ['graphics'] }
+    ],
+    mobile: [
+      { title: 'NIST SP 800-124 Rev.2 Mobile Device Security', iconClass: 'fa-solid fa-mobile-screen', url: 'https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-124r2.pdf', tags: ['mobile','cyber'] }
+    ],
+    computer: [
+      { title: 'The Linux Command Line (TLCL)', iconClass: 'fa-solid fa-computer', url: 'http://linuxcommand.org/tlcl/tlcl-19.01.pdf', tags: ['computer'] }
+    ],
+    web: [
+      { title: 'Eloquent JavaScript (PDF)', iconClass: 'fa-solid fa-globe', url: 'https://eloquentjavascript.net/Eloquent_JavaScript.pdf', tags: ['web'] }
+    ],
+    cyber: [
+      { title: 'NIST SP 800-53 Rev.5 (Security & Privacy Controls)', iconClass: 'fa-solid fa-shield-halved', url: 'https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-53r5.pdf', tags: ['cyber'] }
+    ],
+    ai: [
+      { title: 'Dive Into Deep Learning (D2L)', iconClass: 'fa-solid fa-robot', url: 'https://d2l.ai/d2l-en.pdf', tags: ['ai'] }
+    ],
+    english: [
+      { title: 'Federal Plain Language Guidelines', iconClass: 'fa-solid fa-language', url: 'https://www.plainlanguage.gov/media/FederalPLGuidelines.pdf', tags: ['english'] }
+    ],
+    hvacr: [
+      { title: 'Advanced Energy Retrofit Guide: K-12 Schools', iconClass: 'fa-solid fa-snowflake', url: 'https://www.nrel.gov/docs/fy13osti/51770.pdf', tags: ['hvacr'] }
+    ],
+    welding: [
+      { title: 'OSHA Welding, Cutting, and Brazing Fact Sheet', iconClass: 'fa-solid fa-industry', url: 'https://www.osha.gov/sites/default/files/publications/OSHA_FS-3647_Welding.pdf', tags: ['welding'] }
+    ],
+    auto: [
+      { title: 'NHTSA Tire Safety Brochure', iconClass: 'fa-solid fa-car', url: 'https://www.nhtsa.gov/sites/nhtsa.gov/files/documents/809361_tires_safety_brochure.pdf', tags: ['auto'] }
+    ],
+    motorcycle: [
+      { title: 'NHTSA Motorcycle Safety (Traffic Safety Facts)', iconClass: 'fa-solid fa-motorcycle', url: 'https://www.nhtsa.gov/sites/nhtsa.gov/files/documents/812706_motorcycle_safety_0.pdf', tags: ['motorcycle'] }
+    ],
+    machinist: [
+      { title: 'OSHA Machine Guarding', iconClass: 'fa-solid fa-gear', url: 'https://www.osha.gov/sites/default/files/publications/osha3170.pdf', tags: ['machinist'] }
+    ],
+    electrician: [
+      { title: 'OSHA Electrical Safety (OSHA 3075)', iconClass: 'fa-solid fa-bolt', url: 'https://www.osha.gov/sites/default/files/publications/osha3075.pdf', tags: ['electrician'] }
+    ],
+    solar: [
+      { title: 'Best Practices for PV System Installation', iconClass: 'fa-solid fa-solar-panel', url: 'https://www.nrel.gov/docs/fy13osti/57158.pdf', tags: ['solar'] }
+    ]
+  };
+  // Defer a tick to allow loadData to run first
+  setTimeout(() => {
+    ensureCategory('graphics', curated.graphics);
+    ensureCategory('mobile', curated.mobile);
+    ensureCategory('computer', curated.computer);
+    ensureCategory('web', curated.web);
+    ensureCategory('cyber', curated.cyber);
+    ensureCategory('ai', curated.ai);
+    ensureCategory('english', curated.english);
+    ensureCategory('hvacr', curated.hvacr);
+    ensureCategory('welding', curated.welding);
+    ensureCategory('auto', curated.auto);
+    ensureCategory('motorcycle', curated.motorcycle);
+    ensureCategory('machinist', curated.machinist);
+    ensureCategory('electrician', curated.electrician);
+    ensureCategory('solar', curated.solar);
+  }, 0);
+
   function applySearch(q){
     const query = (q || '').trim().toLowerCase();
     if (!query) { render(base); return; }
