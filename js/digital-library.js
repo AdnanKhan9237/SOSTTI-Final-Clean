@@ -1,56 +1,31 @@
 // Auto-generates 50 resource cards with downloadable PDFs
 (function(){
   const resources = [
-    {title:'HTML & CSS Basics', desc:'Introductory handbook to semantic HTML and modern CSS.', icon:'fa-code', file:'html-css-basics.pdf'},
-    {title:'JavaScript Essentials', desc:'Core concepts of JS with examples and exercises.', icon:'fa-square-js', file:'javascript-essentials.pdf'},
-    {title:'Bootstrap 5 Quickstart', desc:'Build responsive layouts with Bootstrap 5.', icon:'fa-bootstrap', file:'bootstrap-5-quickstart.pdf'},
-    {title:'Git & GitHub Crash Course', desc:'Version control fundamentals for teams and individuals.', icon:'fa-code-branch', file:'git-github-crash-course.pdf'},
-    {title:'Web Accessibility (a11y)', desc:'Practical guide to accessible, inclusive web design.', icon:'fa-universal-access', file:'web-accessibility.pdf'},
-    {title:'Responsive Web Design', desc:'Patterns and techniques for responsive UX.', icon:'fa-mobile-screen-button', file:'responsive-web-design.pdf'},
-    {title:'Computer Networking 101', desc:'Basic networking concepts, TCP/IP, routing.', icon:'fa-network-wired', file:'networking-101.pdf'},
-    {title:'Database Design Primer', desc:'ER modeling, normalization, and schema design.', icon:'fa-database', file:'database-design-primer.pdf'},
-    {title:'SQL Cookbook', desc:'Common SQL queries and optimization tips.', icon:'fa-table', file:'sql-cookbook.pdf'},
-    {title:'NoSQL Overview', desc:'Key-value, document, column, and graph databases.', icon:'fa-server', file:'nosql-overview.pdf'},
-    {title:'Linux Command Line Basics', desc:'Shell navigation, file ops, permissions.', icon:'fa-terminal', file:'linux-cli-basics.pdf'},
-    {title:'Docker Fundamentals', desc:'Containers, images, and Docker Compose.', icon:'fa-box', file:'docker-fundamentals.pdf'},
-    {title:'Cyber Security Starter', desc:'Threats, vulnerabilities, and best practices.', icon:'fa-shield-halved', file:'cyber-security-starter.pdf'},
-    {title:'Web Security Essentials', desc:'OWASP Top 10 and mitigations.', icon:'fa-lock', file:'web-security-essentials.pdf'},
-    {title:'Python for Beginners', desc:'Syntax, data structures, and scripts.', icon:'fa-python', file:'python-beginners.pdf'},
-    {title:'Data Analysis with Python', desc:'NumPy, pandas, and plotting basics.', icon:'fa-chart-line', file:'data-analysis-python.pdf'},
-    {title:'Intro to AI & ML', desc:'Foundational ML concepts and workflows.', icon:'fa-robot', file:'intro-ai-ml.pdf'},
-    {title:'Prompt Engineering Basics', desc:'Practical patterns for LLM prompts.', icon:'fa-wand-magic-sparkles', file:'prompt-engineering-basics.pdf'},
-    {title:'Graphic Design Principles', desc:'Typography, color, and layout basics.', icon:'fa-palette', file:'graphic-design-principles.pdf'},
-    {title:'Adobe Photoshop Tips', desc:'Layers, masks, adjustments, and export.', icon:'fa-image', file:'photoshop-tips.pdf'},
-    {title:'Adobe Illustrator Starter', desc:'Vector shapes, paths, and logos.', icon:'fa-pen-nib', file:'illustrator-starter.pdf'},
-    {title:'UI/UX Fundamentals', desc:'User research, flows, and wireframes.', icon:'fa-object-group', file:'ui-ux-fundamentals.pdf'},
-    {title:'Figma Quick Guide', desc:'Design systems and prototyping in Figma.', icon:'fa-shapes', file:'figma-quick-guide.pdf'},
-    {title:'English Communication', desc:'Professional emails and presentations.', icon:'fa-language', file:'english-communication.pdf'},
-    {title:'Technical Report Writing', desc:'Structure, clarity, and references.', icon:'fa-file-lines', file:'technical-report-writing.pdf'},
-    {title:'Career Readiness', desc:'CV, interview prep, and soft skills.', icon:'fa-briefcase', file:'career-readiness.pdf'},
-    {title:'Time Management', desc:'Prioritization frameworks and focus.', icon:'fa-clock', file:'time-management.pdf'},
-    {title:'Automobile Basics', desc:'Engine components and maintenance.', icon:'fa-car', file:'automobile-basics.pdf'},
-    {title:'Electrical Safety', desc:'Safe practices and standards.', icon:'fa-bolt', file:'electrical-safety.pdf'},
-    {title:'HVACR Fundamentals', desc:'Thermodynamics, cycles, and systems.', icon:'fa-snowflake', file:'hvacr-fundamentals.pdf'},
-    {title:'Welding Techniques', desc:'MIG, TIG, and arc welding basics.', icon:'fa-industry', file:'welding-techniques.pdf'},
-    {title:'Machining Basics', desc:'Lathe, milling, and tolerances.', icon:'fa-gears', file:'machining-basics.pdf'},
-    {title:'Motorcycle Mechanics', desc:'Two-stroke vs four-stroke essentials.', icon:'fa-motorcycle', file:'motorcycle-mechanics.pdf'},
-    {title:'Mobile Repair Basics', desc:'Diagnostics, soldering, and parts.', icon:'fa-mobile-screen', file:'mobile-repair-basics.pdf'},
-    {title:'Solar PV Technician', desc:'PV components, sizing, and safety.', icon:'fa-solar-panel', file:'solar-pv-technician.pdf'},
-    {title:'Industrial Electrician', desc:'Motors, PLCs, and wiring diagrams.', icon:'fa-plug', file:'industrial-electrician.pdf'},
-    {title:'C Programming Basics', desc:'Syntax, pointers, and memory.', icon:'fa-code', file:'c-programming-basics.pdf'},
-    {title:'Java Fundamentals', desc:'OOP, collections, and streams.', icon:'fa-mug-hot', file:'java-fundamentals.pdf'},
-    {title:'C# Quickstart', desc:'.NET basics and LINQ.', icon:'fa-hashtag', file:'csharp-quickstart.pdf'},
-    {title:'Node.js Essentials', desc:'Modules, npm, and Express.', icon:'fa-node-js', file:'nodejs-essentials.pdf'},
-    {title:'TypeScript in Practice', desc:'Types, generics, and tooling.', icon:'fa-tsunami', file:'typescript-in-practice.pdf'},
-    {title:'React Basics', desc:'Components, state, and hooks.', icon:'fa-react', file:'react-basics.pdf'},
-    {title:'DevOps Overview', desc:'CI/CD pipelines and monitoring.', icon:'fa-screwdriver-wrench', file:'devops-overview.pdf'},
-    {title:'Cloud Fundamentals', desc:'IaaS, PaaS, and SaaS overview.', icon:'fa-cloud', file:'cloud-fundamentals.pdf'},
-    {title:'Project Management', desc:'Agile, Scrum, and Kanban.', icon:'fa-diagram-project', file:'project-management.pdf'},
-    {title:'Entrepreneurship 101', desc:'Ideation to MVP and beyond.', icon:'fa-lightbulb', file:'entrepreneurship-101.pdf'},
-    {title:'Excel for Data', desc:'Formulas, pivots, and charts.', icon:'fa-file-excel', file:'excel-for-data.pdf'},
-    {title:'PowerPoint Design', desc:'Slide design and storytelling.', icon:'fa-file-powerpoint', file:'powerpoint-design.pdf'},
-    {title:'Career in Tech', desc:'Roadmaps and learning paths.', icon:'fa-road', file:'career-in-tech.pdf'},
-    {title:'Interview Question Bank', desc:'Common questions and answers.', icon:'fa-question', file:'interview-question-bank.pdf'}
+    {title:'Eloquent JavaScript (3rd Ed.)', desc:'A modern introduction to JavaScript programming.', iconClass:'fa-brands fa-js', url:'https://eloquentjavascript.net/Eloquent_JavaScript.pdf'},
+    {title:'Think Python (2nd Ed.)', desc:'An introduction to Python programming.', iconClass:'fa-brands fa-python', url:'http://greenteapress.com/thinkpython2/thinkpython2.pdf'},
+    {title:'Think Stats (2nd Ed.)', desc:'Exploratory data analysis in Python.', iconClass:'fa-solid fa-chart-line', url:'http://greenteapress.com/thinkstats2/thinkstats2.pdf'},
+    {title:'Think Bayes (2nd Ed.)', desc:'Bayesian statistics with Python.', iconClass:'fa-solid fa-superscript', url:'https://greenteapress.com/wp/think-bayes-2e/thinkbayes2.pdf'},
+    {title:'Think DSP', desc:'Digital signal processing in Python.', iconClass:'fa-solid fa-wave-square', url:'http://greenteapress.com/thinkdsp/thinkdsp.pdf'},
+    {title:'Think OS', desc:'A brief introduction to operating systems.', iconClass:'fa-solid fa-microchip', url:'http://greenteapress.com/thinkos/thinkos.pdf'},
+    {title:'Think Complexity (2nd Ed.)', desc:'Exploring complexity science.', iconClass:'fa-solid fa-project-diagram', url:'https://greenteapress.com/wp/think-complexity-2e/thinkcomplexity2.pdf'},
+    {title:'Think Java (2nd Ed.)', desc:'How to think like a computer scientist in Java.', iconClass:'fa-brands fa-java', url:'https://greenteapress.com/wp/think-java-2e/thinkjava2.pdf'},
+    {title:'Little Book of Semaphores', desc:'Classic text on concurrency.', iconClass:'fa-solid fa-lock', url:'http://greenteapress.com/semaphores/LittleBookOfSemaphores.pdf'},
+    {title:'Operating Systems: Three Easy Pieces', desc:'Comprehensive OS textbook.', iconClass:'fa-solid fa-memory', url:'https://pages.cs.wisc.edu/~remzi/OSTEP/ostep-book.pdf'},
+    {title:'The Linux Command Line', desc:'A complete introduction.', iconClass:'fa-solid fa-terminal', url:'http://linuxcommand.org/tlcl/tlcl-19.01.pdf'},
+    {title:'Pro Git (2nd Ed.)', desc:'The official Git book.', iconClass:'fa-brands fa-git-alt', url:'https://github.com/progit/progit2/releases/latest/download/progit.pdf'},
+    {title:'Open Data Structures (Java)', desc:'Data structures in Java.', iconClass:'fa-solid fa-database', url:'http://opendatastructures.org/ods-java.pdf'},
+    {title:'Open Data Structures (Python)', desc:'Data structures in Python.', iconClass:'fa-solid fa-database', url:'http://opendatastructures.org/ods-python.pdf'},
+    {title:'SICP', desc:'Structure and Interpretation of Computer Programs.', iconClass:'fa-solid fa-book', url:'https://web.mit.edu/6.001/6.037/sicp.pdf'},
+    {title:'Algorithms (Erickson)', desc:'Algorithms textbook by Jeff Erickson.', iconClass:'fa-solid fa-sitemap', url:'http://jeffe.cs.illinois.edu/teaching/algorithms/book/Algorithms-JeffE.pdf'},
+    {title:'Linear Algebra (Hefferon)', desc:'Undergraduate linear algebra.', iconClass:'fa-solid fa-square-root-variable', url:'https://hefferon.net/linearalgebra/linearalgebra.pdf'},
+    {title:'Mathematics for ML', desc:'Mathematics for Machine Learning.', iconClass:'fa-solid fa-sigma', url:'https://mml-book.github.io/book/mml-book.pdf'},
+    {title:'Foundations of Data Science', desc:'By Blum, Hopcroft, Kannan.', iconClass:'fa-solid fa-layer-group', url:'https://www.cs.cornell.edu/jeh/book.pdf'},
+    {title:'Reinforcement Learning (2nd Ed.)', desc:'Sutton & Barto (draft).', iconClass:'fa-solid fa-gamepad', url:'http://incompleteideas.net/book/RLbook2018.pdf'},
+    {title:'Dive Into Deep Learning', desc:'Interactive deep learning book.', iconClass:'fa-solid fa-brain', url:'https://d2l.ai/d2l-en.pdf'},
+    {title:'Database Design (Notes)', desc:'Principles and basics of DB design.', iconClass:'fa-solid fa-database', url:'https://www3.nd.edu/~zxu2/acms60212-40212/GM_1_Intro_DB_Design.pdf'},
+    {title:'Computer Networking Notes', desc:'Intro notes to networks.', iconClass:'fa-solid fa-network-wired', url:'https://gaia.cs.umass.edu/kurose_ross/ppt/slides/Kurose_Ross_7e_Chapter1.pdf'},
+    {title:'Regular Expressions Cookbook', desc:'Practical regex guide.', iconClass:'fa-solid fa-code', url:'https://www.cs.princeton.edu/courses/archive/spr09/cos333/beautifulregex.pdf'},
+    {title:'Python Data Science Handbook', desc:'Selected chapters PDF.', iconClass:'fa-solid fa-chart-bar', url:'https://jakevdp.github.io/PythonDataScienceHandbook/PythonDataScienceHandbook.pdf'}
   ];
 
   // Ensure we have exactly 50; if fewer, pad by cycling
@@ -61,52 +36,21 @@
   const container = document.getElementById('resourcesContainer');
   if (!container) return;
 
-  const enc = new TextEncoder();
-  const pad10 = (n) => n.toString().padStart(10, '0');
-  const esc = (s) => s.replace(/\\/g,'\\\\').replace(/\(/g,'\\(').replace(/\)/g,'\\)');
-  function makePdfBlob(title, desc){
-    const header = '%PDF-1.4\n';
-    const obj1 = '1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n';
-    const obj2 = '2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n';
-    const obj3 = '3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>\nendobj\n';
-    const streamContent = `BT /F1 20 Tf 72 740 Td (${esc(title)}) Tj 0 -28 Td (${esc(desc)}) Tj ET`;
-    const streamBytes = enc.encode(streamContent).length;
-    const obj4 = `4 0 obj\n<< /Length ${streamBytes} >>\nstream\n${streamContent}\nendstream\nendobj\n`;
-    const obj5 = '5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n';
-
-    const parts = [header, obj1, obj2, obj3, obj4, obj5];
-    const offsets = [];
-    let cursor = 0;
-    for (let i=0;i<parts.length;i++){
-      if (i>0) offsets.push(cursor);
-      cursor += enc.encode(parts[i]).length;
-    }
-    const xrefPos = cursor;
-    let xref = 'xref\n0 6\n0000000000 65535 f \n' +
-      pad10(offsets[0]) + ' 00000 n \n' +
-      pad10(offsets[1]) + ' 00000 n \n' +
-      pad10(offsets[2]) + ' 00000 n \n' +
-      pad10(offsets[3]) + ' 00000 n \n' +
-      pad10(offsets[4]) + ' 00000 n \n';
-    const trailer = `trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xrefPos}\n%%EOF`;
-
-    const pdfString = parts.join('') + xref + trailer;
-    return new Blob([pdfString], {type:'application/pdf'});
-  }
+  const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
 
   const toCard = (item, idx) => {
-    const blob = makePdfBlob(item.title, `${item.desc} (Free resource by SOSTTI Digital Library)`);
-    const url = URL.createObjectURL(blob);
+    const fileName = slug(item.title) + '.pdf';
+    const url = item.url;
     return `
     <div class=\"resource-card fade-in\" style=\"animation-delay:${(idx%10)*0.03}s\">
       <div class=\"resource-image\">
-        <i class=\"fas ${item.icon}\" aria-hidden=\"true\"></i>
+        <i class=\"${item.iconClass}\" aria-hidden=\"true\"></i>
       </div>
       <div class=\"resource-content\">
         <h3>${item.title}</h3>
         <p>${item.desc}</p>
         <div class=\"resource-actions\">
-          <a href=\"${url}\" download=\"${item.file}\" class=\"action-btn btn-outline\" aria-label=\"Download ${item.title} PDF\">
+          <a href=\"${url}\" target=\"_blank\" rel=\"noopener\" download=\"${fileName}\" type=\"application/pdf\" class=\"action-btn btn-outline\" aria-label=\"Open or download ${item.title} PDF\">
             <i class=\"fas fa-download\" aria-hidden=\"true\"></i> Download
           </a>
         </div>
