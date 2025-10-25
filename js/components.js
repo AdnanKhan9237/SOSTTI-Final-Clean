@@ -136,6 +136,7 @@ class ComponentManager {
     isAbsolutePath(path) {
         return path.startsWith('http') || 
                path.startsWith('//') || 
+               path.startsWith('/') || 
                path.startsWith('#') || 
                path.startsWith('mailto:') || 
                path.startsWith('tel:');
@@ -329,8 +330,14 @@ class ComponentManager {
 
 // === Global Loading Screen ===
 document.addEventListener("DOMContentLoaded", () => {
-    // Use absolute path from root
-    const imagePath = '/images/SOS Logo.png';
+    // Resolve base path from current location
+    const basePath = (function() {
+        const path = window.location.pathname;
+        if (path.includes('/pages/courses/')) return '../../';
+        if (path.includes('/pages/')) return '../';
+        return './';
+    })();
+    const imagePath = `${basePath}images/SOS Logo.png`;
 
     // Create Loader Element
     const loader = document.createElement('div');
