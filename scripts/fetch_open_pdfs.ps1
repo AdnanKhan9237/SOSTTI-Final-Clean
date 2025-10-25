@@ -29,21 +29,24 @@ function Get-PdfLinksFromPage {
   $pdfs = $pdfs | Select-Object -Unique | Select-Object -First $Max
   $out = @()
   foreach ($u in $pdfs) {
+    $isPdf = $false
     try {
       $head = Invoke-WebRequest -Uri $u -Method Head -UseBasicParsing -TimeoutSec 20 -ErrorAction Stop
-      if ($head.StatusCode -ge 200 -and $head.StatusCode -lt 400 -and ($head.Headers["Content-Type"] -like "application/pdf*")) {
-        $title = [System.IO.Path]::GetFileNameWithoutExtension(([Uri]$u).AbsolutePath) -replace "[_-]"," "
-        $out += [PSCustomObject]@{ title=$title; desc=$Url; iconClass="fa-solid fa-file-pdf"; url=$u; tags=@($Tag) }
+      if ($head.StatusCode -ge 200 -and $head.StatusCode -lt 400) {
+        # Verify PDF magic header with a small GET
+        $get = Invoke-WebRequest -Uri $u -Method Get -UseBasicParsing -MaximumRedirection 2 -TimeoutSec 20 -Headers @{Range='bytes=0-7'}
+        if ($get.Content -and ($get.Content.StartsWith("%PDF-"))) { $isPdf = $true }
       }
     } catch {
-      # Fallback to GET small range to validate
+      # Fallback: try small GET only
       try {
-        $get = Invoke-WebRequest -Uri $u -Method Get -UseBasicParsing -MaximumRedirection 2 -TimeoutSec 20 -Headers @{Range='bytes=0-64'}
-        if ($get.StatusCode -ge 200 -and $get.StatusCode -lt 400 -and ($get.Headers["Content-Type"] -like "application/pdf*" -or $get.RawContentStream)) {
-          $title = [System.IO.Path]::GetFileNameWithoutExtension(([Uri]$u).AbsolutePath) -replace "[_-]"," "
-          $out += [PSCustomObject]@{ title=$title; desc=$Url; iconClass="fa-solid fa-file-pdf"; url=$u; tags=@($Tag) }
-        }
+        $get = Invoke-WebRequest -Uri $u -Method Get -UseBasicParsing -MaximumRedirection 2 -TimeoutSec 20 -Headers @{Range='bytes=0-7'}
+        if ($get.Content -and ($get.Content.StartsWith("%PDF-"))) { $isPdf = $true }
       } catch {}
+    }
+    if ($isPdf) {
+      $title = [System.IO.Path]::GetFileNameWithoutExtension(([Uri]$u).AbsolutePath) -replace "[_-]"," "
+      $out += [PSCustomObject]@{ title=$title; desc=$Url; iconClass="fa-solid fa-file-pdf"; url=$u; tags=@($Tag) }
     }
   }
   return $out
