@@ -36,7 +36,6 @@
       </div>
       <div class=\"resource-content\">
         <h3>${item.title}</h3>
-        <p>${item.desc}</p>
         <div class=\"resource-actions\">
           <a href=\"${item.url}\" target=\"_blank\" rel=\"noopener\" class=\"action-btn btn-outline\" aria-label=\"Open ${item.title} PDF\">
             <i class=\"fas fa-download\" aria-hidden=\"true\"></i> Open PDF
@@ -54,6 +53,7 @@
   }
 
   // Prefer inline dataset if available (works without fetch/file restrictions)
+  let base = [];
   const loadData = (list) => {
     const seen = new Set();
     resources = list.filter(x => x && x.url && /\.pdf(\?|$)/i.test(x.url) && !seen.has(x.url) && (seen.add(x.url) || true));
@@ -67,7 +67,6 @@
     fetch('../js/resources-open.json').then(r => r.json()).then(loadData).catch(() => render([]));
   }
 
-  let base = [];
   function applySearch(q){
     const query = (q || '').trim().toLowerCase();
     if (!query) { render(base); return; }
