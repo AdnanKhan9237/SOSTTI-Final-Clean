@@ -1,4 +1,4 @@
-﻿window.OPEN_PDFS = [
+window.OPEN_PDFS = [
     {
         "title":  "mml book",
         "desc":  "https://mml-book.github.io/",
