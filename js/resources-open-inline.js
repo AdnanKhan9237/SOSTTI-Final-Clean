@@ -45,6 +45,15 @@ window.OPEN_PDFS = [
                  ]
     },
     {
+        "title":  "book",
+        "desc":  "https://www.cs.cornell.edu/jeh/",
+        "iconClass":  "fa-solid fa-robot",
+        "url":  "http://ttic.edu/blum/book.pdf",
+        "tags":  [
+                     "ai"
+                 ]
+    },
+    {
         "title":  "preface",
         "desc":  "https://pages.cs.wisc.edu/~remzi/OSTEP/",
         "iconClass":  "fa-solid fa-computer",
@@ -726,15 +735,6 @@ window.OPEN_PDFS = [
         "url":  "http://opendatastructures.org/mcs.pdf",
         "tags":  [
                      "computer"
-                 ]
-    },
-    {
-        "title":  "book",
-        "desc":  "https://www.cs.cornell.edu/jeh/",
-        "iconClass":  "fa-solid fa-robot",
-        "url":  "http://ttic.edu/blum/book.pdf",
-        "tags":  [
-                     "ai"
                  ]
     },
     {
