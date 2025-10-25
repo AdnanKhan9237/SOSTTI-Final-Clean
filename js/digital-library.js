@@ -91,10 +91,12 @@
     const streamLen = enc.encode(streamText).length;
     const obj4 = `4 0 obj\n<< /Length ${streamLen} >>\nstream\n${streamText}\nendstream\nendobj\n`;
     const obj5 = '5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n';
+    // Build exact byte offsets for xref (objects 1..5)
     const parts = [header, obj1, obj2, obj3, obj4, obj5];
     const offsets = [];
-    let cursor = 0;
-    for (let i=0;i<parts.length;i++) { if (i>0) offsets.push(cursor); cursor += enc.encode(parts[i]).length; }
+    let cursor = enc.encode(header).length; // first object starts after header
+    const objs = [obj1, obj2, obj3, obj4, obj5];
+    for (const o of objs) { offsets.push(cursor); cursor += enc.encode(o).length; }
     const xrefPos = cursor;
     const pad10 = (n) => n.toString().padStart(10, '0');
     let xref = 'xref\n0 6\n0000000000 65535 f \n'
