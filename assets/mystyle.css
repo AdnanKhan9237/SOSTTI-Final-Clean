@@ -1251,6 +1251,34 @@ body.menu-open {
   background: var(--white);
 }
 
+/* Ensure tables are scrollable on small screens */
+@media (max-width: 992px) {
+  .courses-table {
+    min-width: 720px; /* forces horizontal scroll within container */
+  }
+}
+
+@media (max-width: 768px) {
+  .program-section {
+    padding: 20px; /* reduce padding to maximize scrollable area */
+  }
+  .courses-table-container {
+    margin-left: -10px; /* edge-to-edge scroll affordance */
+    margin-right: -10px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .courses-table th,
+  .courses-table td {
+    font-size: 0.95rem;
+    padding: 14px 16px;
+    white-space: normal; /* allow wrapping */
+  }
+  .course-name {
+    align-items: flex-start;
+  }
+}
+
 .courses-table thead {
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
 }
