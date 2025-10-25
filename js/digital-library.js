@@ -152,7 +152,7 @@
         <h3>${item.title}</h3>
         <p>${item.desc}</p>
         <div class=\"resource-actions\">
-          <a href=\"${url}\" target=\"_blank\" rel=\"noopener\" download=\"${fileName}\" type=\"application/pdf\" class=\"action-btn btn-outline\" aria-label=\"Open or download ${item.title} PDF\">
+          <a href=\"${url}\" target=\"_blank\" rel=\"noopener\" type=\"application/pdf\" class=\"action-btn btn-outline\" aria-label=\"Open ${item.title} PDF\">
             <i class=\"fas fa-download\" aria-hidden=\"true\"></i> Download
           </a>
         </div>
@@ -167,8 +167,8 @@
     if (resultMeta) resultMeta.textContent = `Showing ${items.length} resources`;
   }
 
-  // Enforce direct-PDF links so a PDF opens for every item
-  const base = resources.filter(r => /\.pdf(\?|$)/i.test(r.url));
+  // Use all generated resources (blob: PDFs open in a new tab)
+  const base = resources;
   render(base);
 
   function applySearch(q){
