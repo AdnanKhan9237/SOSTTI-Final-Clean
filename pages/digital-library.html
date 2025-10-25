@@ -427,6 +427,27 @@
     <!-- Library Content -->
     <section class="library-content">
         <div class="container">
+            <!-- Search -->
+            <div class="search-section">
+                <div class="container">
+                    <div class="search-container">
+                        <div class="search-box">
+                            <input id="librarySearch" class="search-input" type="search" placeholder="Search books e.g., python, git, algorithms" aria-label="Search library">
+                            <button id="librarySearchBtn" class="search-btn" aria-label="Search"><i class="fas fa-search"></i></button>
+                        </div>
+                        <div class="quick-filters">
+                            <button class="filter-btn" data-filter="javascript">JavaScript</button>
+                            <button class="filter-btn" data-filter="python">Python</button>
+                            <button class="filter-btn" data-filter="git">Git</button>
+                            <button class="filter-btn" data-filter="linux os">OS/Linux</button>
+                            <button class="filter-btn" data-filter="database sql">Database</button>
+                            <button class="filter-btn" data-filter="math ai">Math/AI</button>
+                        </div>
+                        <div id="resultMeta" style="text-align:center; margin-top:10px; color:#666;"></div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Featured Resources -->
             <div class="featured-section">
                 <h2>Resources</h2>

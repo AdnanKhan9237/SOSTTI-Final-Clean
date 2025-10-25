@@ -42,7 +42,7 @@
     const fileName = slug(item.title) + '.pdf';
     const url = item.url;
     return `
-    <div class=\"resource-card fade-in\" style=\"animation-delay:${(idx%10)*0.03}s\">
+    <div class=\"resource-card fade-in\" data-title=\"${slug(item.title)}\" data-desc=\"${slug(item.desc)}\" style=\"animation-delay:${(idx%10)*0.03}s\">
       <div class=\"resource-image\">
         <i class=\"${item.iconClass}\" aria-hidden=\"true\"></i>
       </div>
@@ -58,5 +58,51 @@
     </div>`;
   };
 
-  container.innerHTML = list.map(toCard).join('');
+  // Render and search
+  const resultMeta = document.getElementById('resultMeta');
+  function render(items){
+    container.innerHTML = items.map(toCard).join('');
+    if (resultMeta) resultMeta.textContent = `Showing ${items.length} resources`;
+  }
+
+  const base = list; // 50 items
+  render(base);
+
+  function applySearch(q){
+    const query = (q || '').trim().toLowerCase();
+    if (!query) {
+      render(base);
+      return;
+    }
+    // Filter unique by title over original resources (higher quality results)
+    const uniq = resources.filter((r, i, arr) => arr.findIndex(x => x.title === r.title) === i);
+    const filtered = uniq.filter(r => (r.title + ' ' + r.desc).toLowerCase().includes(query));
+    // Expand to grid by repeating if needed
+    const expanded = [];
+    while (expanded.length < Math.max(6, filtered.length)) {
+      for (const it of filtered) { if (expanded.length >= Math.max(6, filtered.length)) break; expanded.push(it); }
+      if (filtered.length === 0) break;
+    }
+    render(expanded.length ? expanded : []);
+    if (resultMeta && expanded.length === 0) resultMeta.textContent = 'No results found';
+  }
+
+  const input = document.getElementById('librarySearch');
+  const btn = document.getElementById('librarySearchBtn');
+  if (input) {
+    input.addEventListener('input', () => applySearch(input.value));
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') applySearch(input.value); });
+  }
+  if (btn) btn.addEventListener('click', () => applySearch(input ? input.value : ''));
+
+  // Quick filters
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const term = btn.getAttribute('data-filter') || '';
+      if (input) input.value = term.split(' ')[0];
+      applySearch(term);
+    });
+  });
 })();
