@@ -129,17 +129,23 @@
     if (resultMeta) resultMeta.textContent = `Showing ${items.length} resources`;
   }
 
-  // Load resources from JSON then render
-  fetch('../js/resources-open.json').then(r => r.json()).then(json => {
-    // Expect array of {title, desc, iconClass, url, tags}
-    // Ensure direct PDFs only, dedupe and trim to 100
+  // Prefer inline dataset if available (works without fetch/file restrictions)
+  if (window.OPEN_PDFS && Array.isArray(window.OPEN_PDFS)) {
     const seen = new Set();
-    resources = json.filter(x => x && x.url && /\.pdf(\?|$)/i.test(x.url) && !seen.has(x.url) && (seen.add(x.url) || true));
+    resources = window.OPEN_PDFS.filter(x => x && x.url && /\.pdf(\?|$)/i.test(x.url) && !seen.has(x.url) && (seen.add(x.url) || true));
     if (resources.length > 100) resources = resources.slice(0,100);
     render(resources);
-  }).catch(() => {
-    render([]);
-  });
+  } else {
+    // Fallback: fetch JSON (works when served over HTTP)
+    fetch('../js/resources-open.json').then(r => r.json()).then(json => {
+      const seen = new Set();
+      resources = json.filter(x => x && x.url && /\.pdf(\?|$)/i.test(x.url) && !seen.has(x.url) && (seen.add(x.url) || true));
+      if (resources.length > 100) resources = resources.slice(0,100);
+      render(resources);
+    }).catch(() => {
+      render([]);
+    });
+  }
 
   function applySearch(q){
     const query = (q || '').trim().toLowerCase();
