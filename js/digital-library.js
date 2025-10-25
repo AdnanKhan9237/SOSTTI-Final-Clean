@@ -1,6 +1,5 @@
-// Digital Library: render 100 course-aligned items and generate multi-page PDFs on click
+// Digital Library: render 100 course-aligned items from open-access PDFs
 (function(){
-  // Helper
   const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
     {title:'Pro Git (2nd Ed.)', desc:'The official Git book.', iconClass:'fa-brands fa-git-alt', url:'https://github.com/progit/progit2/releases/latest/download/progit.pdf', tags:['computer','web']},
     {title:'The Linux Command Line', desc:'A complete introduction to Linux CLI.', iconClass:'fa-solid fa-terminal', url:'http://linuxcommand.org/tlcl/tlcl-19.01.pdf', tags:['computer']},
@@ -20,7 +19,7 @@
     {title:'Foundations of Data Science', desc:'By Blum, Hopcroft, Kannan.', iconClass:'fa-solid fa-layer-group', url:'https://www.cs.cornell.edu/jeh/book.pdf', tags:['ai']}
   ];
 
-  // Course-aligned categories
+  // Course-aligned categories (for filtering chips)
   const cats = [
     {key:'computer', icon:'fa-solid fa-computer', base:'Computer Operator', variants:['Microsoft Word guide','Microsoft Excel handbook','PowerPoint practical','Windows 10 essentials','Office automation tutorial','Typing skills workbook','Computer fundamentals']},
     {key:'graphics', icon:'fa-solid fa-palette', base:'Graphic Design', variants:['Photoshop classroom in a book','Illustrator classroom in a book','CorelDRAW basics','Typography handbook','Color theory for designers','Layout and composition','Logo design grid']},
@@ -38,50 +37,8 @@
     {key:'solar', icon:'fa-solid fa-solar-panel', base:'Solar PV Technician', variants:['Solar PV design','Solar installation guide','Off-grid systems','Inverters and charge controllers','Solar maintenance','PV wiring and safety','Solar site assessment']}
   ];
 
-  // Build 100 items aligned to courses (no preassigned URLs)
-  const resources = [];
-  const docKinds = ['Basics','Handbook','Workbook','Fundamentals','Guide','Notes','Lab Manual','Practice'];
-  let idx = 0;
-  while (resources.length < 100) {
-    for (const cat of cats) {
-      const kind = docKinds[idx % docKinds.length];
-      const variant = cat.variants[idx % cat.variants.length];
-      resources.push({ title: `${cat.base}: ${kind}`, desc: `${cat.base} ${kind} – ${variant}`, iconClass: cat.icon, tags:[cat.key] });
-      idx++;
-      if (resources.length >= 100) break;
-    }
-  }
-
-  // PDF generator (multi-page) using jsPDF at click time
-  function generatePdf(item){
-    const { jsPDF } = window.jspdf || {};
-    if (!jsPDF) { alert('PDF generator not loaded'); return; }
-    const doc = new jsPDF({unit:'pt', format:'a4'});
-    const margin = 48;
-    const line = (txt, y, size=12) => { doc.setFontSize(size); doc.text(txt, margin, y); };
-
-    // Cover
-    doc.setFont('helvetica','bold');
-    line(item.title, 120, 22);
-    doc.setFont('helvetica','normal');
-    line(item.desc, 160, 12);
-    line('SOS Technical Training Institute (SOSTTI)', 190, 12);
-
-    // Outline pages (create multiple pages with sample content)
-    const sections = ['Overview','Syllabus','Modules','Practical Tasks','Assessment','References'];
-    sections.forEach((s, i) => {
-      doc.addPage();
-      doc.setFont('helvetica','bold');
-      line(`${s}`, 120, 18);
-      doc.setFont('helvetica','normal');
-      const body = Array.from({length: 25}, (_,k)=>`• ${item.title} - ${s} item ${k+1}`);
-      let y = 150;
-      body.forEach(b=>{ if (y>760){ doc.addPage(); y=120; } line(b, y); y+=22; });
-    });
-
-    const url = URL.createObjectURL(doc.output('blob'));
-    window.open(url, '_blank', 'noopener');
-  }
+  // We will fetch open-access PDFs list from resources-open.json
+  let resources = [];
     // Build a simple but readable 1-page PDF with multiple lines
     const header = '%PDF-1.4\n';
     const obj1 = '1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n';
@@ -157,9 +114,9 @@
         <h3>${item.title}</h3>
         <p>${item.desc}</p>
         <div class=\"resource-actions\">
-          <button type=\"button\" class=\"action-btn btn-outline dl-open\" aria-label=\"Open ${item.title} PDF\" data-idx=\"${idx}\">
+          <a href=\"${item.url}\" target=\"_blank\" rel=\"noopener\" class=\"action-btn btn-outline\" aria-label=\"Open ${item.title} PDF\">
             <i class=\"fas fa-download\" aria-hidden=\"true\"></i> Open PDF
-          </button>
+          </a>
         </div>
       </div>
     </div>`;
@@ -172,18 +129,16 @@
     if (resultMeta) resultMeta.textContent = `Showing ${items.length} resources`;
   }
 
-  // Initial render
-  const base = resources;
-  render(base);
-
-  // Click-to-generate handler (delegation)
-  document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.dl-open');
-    if (btn) {
-      const idx = Number(btn.getAttribute('data-idx')) || 0;
-      const item = base[idx];
-      if (item) generatePdf(item);
-    }
+  // Load resources from JSON then render
+  fetch('../js/resources-open.json').then(r => r.json()).then(json => {
+    // Expect array of {title, desc, iconClass, url, tags}
+    // Ensure direct PDFs only, dedupe and trim to 100
+    const seen = new Set();
+    resources = json.filter(x => x && x.url && /\.pdf(\?|$)/i.test(x.url) && !seen.has(x.url) && (seen.add(x.url) || true));
+    if (resources.length > 100) resources = resources.slice(0,100);
+    render(resources);
+  }).catch(() => {
+    render([]);
   });
 
   function applySearch(q){
