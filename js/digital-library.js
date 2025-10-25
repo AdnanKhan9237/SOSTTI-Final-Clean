@@ -61,22 +61,58 @@
   const container = document.getElementById('resourcesContainer');
   if (!container) return;
 
-  const pdfHref = '../pdfs/sample.pdf'; // same-origin file for download
-  const toCard = (item, idx) => `
-    <div class="resource-card fade-in" style="animation-delay:${(idx%10)*0.03}s">
-      <div class="resource-image">
-        <i class="fas ${item.icon}" aria-hidden="true"></i>
+  const enc = new TextEncoder();
+  const pad10 = (n) => n.toString().padStart(10, '0');
+  const esc = (s) => s.replace(/\\/g,'\\\\').replace(/\(/g,'\\(').replace(/\)/g,'\\)');
+  function makePdfBlob(title, desc){
+    const header = '%PDF-1.4\n';
+    const obj1 = '1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n';
+    const obj2 = '2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n';
+    const obj3 = '3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>\nendobj\n';
+    const streamContent = `BT /F1 20 Tf 72 740 Td (${esc(title)}) Tj 0 -28 Td (${esc(desc)}) Tj ET`;
+    const streamBytes = enc.encode(streamContent).length;
+    const obj4 = `4 0 obj\n<< /Length ${streamBytes} >>\nstream\n${streamContent}\nendstream\nendobj\n`;
+    const obj5 = '5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n';
+
+    const parts = [header, obj1, obj2, obj3, obj4, obj5];
+    const offsets = [];
+    let cursor = 0;
+    for (let i=0;i<parts.length;i++){
+      if (i>0) offsets.push(cursor);
+      cursor += enc.encode(parts[i]).length;
+    }
+    const xrefPos = cursor;
+    let xref = 'xref\n0 6\n0000000000 65535 f \n' +
+      pad10(offsets[0]) + ' 00000 n \n' +
+      pad10(offsets[1]) + ' 00000 n \n' +
+      pad10(offsets[2]) + ' 00000 n \n' +
+      pad10(offsets[3]) + ' 00000 n \n' +
+      pad10(offsets[4]) + ' 00000 n \n';
+    const trailer = `trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xrefPos}\n%%EOF`;
+
+    const pdfString = parts.join('') + xref + trailer;
+    return new Blob([pdfString], {type:'application/pdf'});
+  }
+
+  const toCard = (item, idx) => {
+    const blob = makePdfBlob(item.title, `${item.desc} (Free resource by SOSTTI Digital Library)`);
+    const url = URL.createObjectURL(blob);
+    return `
+    <div class=\"resource-card fade-in\" style=\"animation-delay:${(idx%10)*0.03}s\">
+      <div class=\"resource-image\">
+        <i class=\"fas ${item.icon}\" aria-hidden=\"true\"></i>
       </div>
-      <div class="resource-content">
+      <div class=\"resource-content\">
         <h3>${item.title}</h3>
         <p>${item.desc}</p>
-        <div class="resource-actions">
-          <a href="${pdfHref}" download="${item.file}" class="action-btn btn-outline" aria-label="Download ${item.title} PDF">
-            <i class="fas fa-download" aria-hidden="true"></i> Download
+        <div class=\"resource-actions\">
+          <a href=\"${url}\" download=\"${item.file}\" class=\"action-btn btn-outline\" aria-label=\"Download ${item.title} PDF\">
+            <i class=\"fas fa-download\" aria-hidden=\"true\"></i> Download
           </a>
         </div>
       </div>
     </div>`;
+  };
 
   container.innerHTML = list.map(toCard).join('');
 })();
