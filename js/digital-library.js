@@ -1,23 +1,6 @@
 // Digital Library: render 100 course-aligned items from open-access PDFs
 (function(){
   const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
-    {title:'Pro Git (2nd Ed.)', desc:'The official Git book.', iconClass:'fa-brands fa-git-alt', url:'https://github.com/progit/progit2/releases/latest/download/progit.pdf', tags:['computer','web']},
-    {title:'The Linux Command Line', desc:'A complete introduction to Linux CLI.', iconClass:'fa-solid fa-terminal', url:'http://linuxcommand.org/tlcl/tlcl-19.01.pdf', tags:['computer']},
-    {title:'Eloquent JavaScript (3rd Ed.)', desc:'Modern introduction to JavaScript.', iconClass:'fa-brands fa-js', url:'https://eloquentjavascript.net/Eloquent_JavaScript.pdf', tags:['web']},
-    {title:'Think Python (2nd Ed.)', desc:'Intro to Python programming.', iconClass:'fa-brands fa-python', url:'http://greenteapress.com/thinkpython2/thinkpython2.pdf', tags:['computer','ai']},
-    {title:'Think Stats (2nd Ed.)', desc:'Exploratory data analysis in Python.', iconClass:'fa-solid fa-chart-line', url:'http://greenteapress.com/thinkstats2/thinkstats2.pdf', tags:['ai']},
-    {title:'Think Bayes (2nd Ed.)', desc:'Bayesian statistics with Python.', iconClass:'fa-solid fa-superscript', url:'https://greenteapress.com/wp/think-bayes-2e/thinkbayes2.pdf', tags:['ai']},
-    {title:'Operating Systems: Three Easy Pieces', desc:'Comprehensive OS textbook.', iconClass:'fa-solid fa-memory', url:'https://pages.cs.wisc.edu/~remzi/OSTEP/ostep-book.pdf', tags:['computer']},
-    {title:'SICP', desc:'Structure and Interpretation of Computer Programs.', iconClass:'fa-solid fa-book', url:'https://web.mit.edu/6.001/6.037/sicp.pdf', tags:['computer']},
-    {title:'Linear Algebra (Hefferon)', desc:'Undergraduate linear algebra.', iconClass:'fa-solid fa-square-root-variable', url:'https://hefferon.net/linearalgebra/linearalgebra.pdf', tags:['ai']},
-    {title:'Mathematics for ML', desc:'Mathematics for Machine Learning.', iconClass:'fa-solid fa-sigma', url:'https://mml-book.github.io/book/mml-book.pdf', tags:['ai']},
-    {title:'Dive Into Deep Learning', desc:'Interactive deep learning book.', iconClass:'fa-solid fa-brain', url:'https://d2l.ai/d2l-en.pdf', tags:['ai']},
-    {title:'Python Data Science Handbook', desc:'Selected chapters (open).', iconClass:'fa-solid fa-chart-bar', url:'https://jakevdp.github.io/PythonDataScienceHandbook/PythonDataScienceHandbook.pdf', tags:['ai']},
-    {title:'Open Data Structures (Java)', desc:'Data structures in Java.', iconClass:'fa-solid fa-database', url:'http://opendatastructures.org/ods-java.pdf', tags:['computer']},
-    {title:'Open Data Structures (Python)', desc:'Data structures in Python.', iconClass:'fa-solid fa-database', url:'http://opendatastructures.org/ods-python.pdf', tags:['computer']},
-    {title:'Think Java (2nd Ed.)', desc:'How to think like a computer scientist in Java.', iconClass:'fa-brands fa-java', url:'https://greenteapress.com/wp/think-java-2e/thinkjava2.pdf', tags:['computer']},
-    {title:'Foundations of Data Science', desc:'By Blum, Hopcroft, Kannan.', iconClass:'fa-solid fa-layer-group', url:'https://www.cs.cornell.edu/jeh/book.pdf', tags:['ai']}
-  ];
 
   // Course-aligned categories (for filtering chips)
   const cats = [
@@ -37,67 +20,8 @@
     {key:'solar', icon:'fa-solid fa-solar-panel', base:'Solar PV Technician', variants:['Solar PV design','Solar installation guide','Off-grid systems','Inverters and charge controllers','Solar maintenance','PV wiring and safety','Solar site assessment']}
   ];
 
-  // We will fetch open-access PDFs list from resources-open.json
+  // Data + state
   let resources = [];
-    // Build a simple but readable 1-page PDF with multiple lines
-    const header = '%PDF-1.4\n';
-    const obj1 = '1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n';
-    const obj2 = '2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n';
-    const obj3 = '3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>\nendobj\n';
-    let streamText = `BT /F1 20 Tf 72 770 Td (${esc(title)}) Tj`;
-    let y = 770;
-    streamText += ' /F1 12 Tf';
-    for (const ln of lines) {
-      y -= 20;
-      streamText += ` 0 -20 Td (${esc(ln)}) Tj`;
-    }
-    streamText += ' ET';
-    const streamLen = enc.encode(streamText).length;
-    const obj4 = `4 0 obj\n<< /Length ${streamLen} >>\nstream\n${streamText}\nendstream\nendobj\n`;
-    const obj5 = '5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n';
-    // Build exact byte offsets for xref (objects 1..5)
-    const parts = [header, obj1, obj2, obj3, obj4, obj5];
-    const offsets = [];
-    let cursor = enc.encode(header).length; // first object starts after header
-    const objs = [obj1, obj2, obj3, obj4, obj5];
-    for (const o of objs) { offsets.push(cursor); cursor += enc.encode(o).length; }
-    const xrefPos = cursor;
-    const pad10 = (n) => n.toString().padStart(10, '0');
-    let xref = 'xref\n0 6\n0000000000 65535 f \n'
-      + pad10(offsets[0]) + ' 00000 n \n'
-      + pad10(offsets[1]) + ' 00000 n \n'
-      + pad10(offsets[2]) + ' 00000 n \n'
-      + pad10(offsets[3]) + ' 00000 n \n'
-      + pad10(offsets[4]) + ' 00000 n \n';
-    const trailer = `trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xrefPos}\n%%EOF`;
-    const pdf = parts.join('') + xref + trailer;
-    return new Blob([pdf], {type:'application/pdf'});
-  }
-
-  // Build 100 local documents aligned to courses
-  const newResources = [];
-  const docKinds = ['Basics','Handbook','Workbook','Fundamentals','Guide','Notes','Lab Manual','Practice'];
-  let idx = 0;
-  while (newResources.length < 100) {
-    for (const cat of cats) {
-      const kind = docKinds[idx % docKinds.length];
-      const variant = cat.variants[idx % cat.variants.length];
-      const title = `${cat.base}: ${kind}`;
-      const lines = [
-        `Topic: ${variant}`,
-        `Institute: SOS Technical Training Institute (SOSTTI)`,
-        `Category: ${cat.base}`,
-        `Summary: Reference material for trainees`,
-        `Use: Education and practice`
-      ];
-      const blob = makePdfBlob(title, lines);
-      const url = URL.createObjectURL(blob);
-      newResources.push({ title, desc:`${cat.base} ${kind} – ${variant}`, iconClass:cat.icon, url, tags:[cat.key] });
-      idx++;
-      if (newResources.length >= 100) break;
-    }
-  }
-  resources.splice(0, resources.length, ...newResources);
 
   // Render utils
   const container = document.getElementById('resourcesContainer');
@@ -130,23 +54,20 @@
   }
 
   // Prefer inline dataset if available (works without fetch/file restrictions)
-  if (window.OPEN_PDFS && Array.isArray(window.OPEN_PDFS)) {
+  const loadData = (list) => {
     const seen = new Set();
-    resources = window.OPEN_PDFS.filter(x => x && x.url && /\.pdf(\?|$)/i.test(x.url) && !seen.has(x.url) && (seen.add(x.url) || true));
+    resources = list.filter(x => x && x.url && /\.pdf(\?|$)/i.test(x.url) && !seen.has(x.url) && (seen.add(x.url) || true));
     if (resources.length > 100) resources = resources.slice(0,100);
-    render(resources);
+    base = resources;
+    render(base);
+  };
+  if (window.OPEN_PDFS && Array.isArray(window.OPEN_PDFS)) {
+    loadData(window.OPEN_PDFS);
   } else {
-    // Fallback: fetch JSON (works when served over HTTP)
-    fetch('../js/resources-open.json').then(r => r.json()).then(json => {
-      const seen = new Set();
-      resources = json.filter(x => x && x.url && /\.pdf(\?|$)/i.test(x.url) && !seen.has(x.url) && (seen.add(x.url) || true));
-      if (resources.length > 100) resources = resources.slice(0,100);
-      render(resources);
-    }).catch(() => {
-      render([]);
-    });
+    fetch('../js/resources-open.json').then(r => r.json()).then(loadData).catch(() => render([]));
   }
 
+  let base = [];
   function applySearch(q){
     const query = (q || '').trim().toLowerCase();
     if (!query) { render(base); return; }
