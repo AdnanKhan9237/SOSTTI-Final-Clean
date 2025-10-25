@@ -103,7 +103,8 @@
     if (resultMeta) resultMeta.textContent = `Showing ${items.length} resources`;
   }
 
-  const base = resources; // 100 items, unique URLs
+  // Enforce direct-PDF links so a PDF opens for every item
+  const base = resources.filter(r => /\.pdf(\?|$)/i.test(r.url));
   render(base);
 
   function applySearch(q){
