@@ -14,14 +14,9 @@ class SimpleImageAnnouncement {
     }
 
     init() {
-        // Respect don't-show-again (7 days) and once-per-session
-        const dismissedAt = localStorage.getItem('imageAnnouncementDismissedAt');
+        // Show at most once per tab session
         const shownThisSession = sessionStorage.getItem('imageAnnouncementShown');
-        const now = Date.now();
-        const sevenDays = 7 * 24 * 60 * 60 * 1000;
-
-        if (shownThisSession) return; // already shown this tab
-        if (dismissedAt && (now - Number(dismissedAt)) < sevenDays) return; // snoozed
+        if (shownThisSession) return;
 
         // Remove any existing announcements first
         this.cleanup();
@@ -66,13 +61,13 @@ class SimpleImageAnnouncement {
             }
 
             #imageAnnouncementPopup {
-                background: #0b1220;
+                background: transparent; /* no background behind image */
                 position: relative;
                 width: 100%;
                 max-width: 520px;
                 border-radius: 16px;
-                overflow: hidden;
-                box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+                overflow: visible;
+                box-shadow: none; /* no shadow box */
                 animation: slideIn 0.28s ease-out;
             }
 
@@ -383,17 +378,8 @@ class SimpleImageAnnouncement {
                     ${this.ads.length > 1 ? '<div class="adCounter" id="adCounter">1/' + this.ads.length + '</div>' : ''}
                     ${this.ads.length > 1 ? '<button class="navArrow prevArrow" id="prevArrow" aria-label="Previous">‹</button>' : ''}
                     ${this.ads.length > 1 ? '<button class="navArrow nextArrow" id="nextArrow" aria-label="Next">›</button>' : ''}
-                    <div class="announcementHeader">
-                        <div class="announcementTag"><i class="fas fa-bullhorn"></i> Latest</div>
-                    </div>
                     <div class="imageContainer">
                         <img src="${this.ads[0]}" alt="SOSTTI Announcement" class="announcementImage" id="announcementImage">
-                    </div>
-                    <div class="announcementFooter">
-                        <div class="announcementActions">
-                            <button class="annBtn" id="annLearnMore"><i class="fas fa-info-circle"></i> Learn more</button>
-                        </div>
-                        <button class="annLink" id="annDismiss">Don’t show again</button>
                     </div>
                 </div>
             </div>
@@ -408,27 +394,15 @@ class SimpleImageAnnouncement {
 
         // Interactions
         const overlay = document.getElementById('imageAnnouncementOverlay');
-        const popup = document.getElementById('imageAnnouncementPopup');
         const closeBtn = document.getElementById('imageCloseBtn');
-        const dismissBtn = document.getElementById('annDismiss');
-        const learnMoreBtn = document.getElementById('annLearnMore');
 
         // Close handlers
-        const close = () => { overlay.style.display = 'none'; };
+        const close = () => {
+            overlay.style.display = 'none';
+            document.body.classList.remove('menu-open');
+        };
         closeBtn?.addEventListener('click', close);
         overlay?.addEventListener('click', (e) => { if (e.target === overlay) close(); });
-
-        // Dismiss for 7 days
-        dismissBtn?.addEventListener('click', () => {
-            localStorage.setItem('imageAnnouncementDismissedAt', String(Date.now()));
-            close();
-        });
-
-        // Learn more (optional: navigate to info page if exists)
-        learnMoreBtn?.addEventListener('click', () => {
-            // Replace with a real URL if desired
-            window.location.href = 'pages/prospectus.html';
-        });
 
         // Preload images for better performance
         this.preloadImages();

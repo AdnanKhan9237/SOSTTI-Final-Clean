@@ -1291,13 +1291,13 @@ body.menu-open {
     gap: 8px;
     text-align: center;
     font-size: 0.95rem;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: #fff;
-    padding: 8px 14px;
-    border-radius: 999px;
-    margin: 6px auto 12px;
+    background: transparent; /* remove colored background */
+    color: var(--text);
+    padding: 0; /* no pill padding */
+    border-radius: 0;
+    margin: 6px auto 8px;
     width: auto;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    box-shadow: none;
   }
 
   .courses-table-container { overflow-x: visible; }
