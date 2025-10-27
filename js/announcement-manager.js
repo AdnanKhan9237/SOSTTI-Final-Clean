@@ -14,20 +14,11 @@ class SimpleImageAnnouncement {
     }
 
     init() {
-        // Show at most once per tab session
-        const shownThisSession = sessionStorage.getItem('imageAnnouncementShown');
-        if (shownThisSession) return;
-
-        // Remove any existing announcements first
+        // Always show (no session gating)
         this.cleanup();
-        
-        // Create and show announcement
         this.createAnnouncement();
-        
-        // Show after 5 seconds
         setTimeout(() => {
             this.showAnnouncement();
-            sessionStorage.setItem('imageAnnouncementShown', '1');
         }, 5000);
     }
 
@@ -51,9 +42,7 @@ class SimpleImageAnnouncement {
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: rgba(10,15,20,0.6);
-                backdrop-filter: blur(3px);
-                -webkit-backdrop-filter: blur(3px);
+                background: transparent; /* fully transparent behind the image */
                 z-index: 99999;
                 justify-content: center;
                 align-items: center;

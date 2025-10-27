@@ -1282,7 +1282,7 @@ body.menu-open {
 /* Extra-small stacked table layout */
 @media (max-width: 576px) {
   /* Keep the shift banner, hide column headers */
-  .courses-table thead { background: transparent; }
+  .courses-table thead, .courses-table thead tr, .courses-table thead th { background: transparent !important; }
   .courses-table thead tr:nth-child(2) { display: none; }
   .courses-table thead tr:first-child th {
     display: inline-flex;
@@ -1291,7 +1291,7 @@ body.menu-open {
     gap: 8px;
     text-align: center;
     font-size: 0.95rem;
-    background: transparent; /* remove colored background */
+    background: transparent !important; /* remove colored background */
     color: var(--text);
     padding: 0; /* no pill padding */
     border-radius: 0;
