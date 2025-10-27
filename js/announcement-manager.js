@@ -14,6 +14,15 @@ class SimpleImageAnnouncement {
     }
 
     init() {
+        // Respect don't-show-again (7 days) and once-per-session
+        const dismissedAt = localStorage.getItem('imageAnnouncementDismissedAt');
+        const shownThisSession = sessionStorage.getItem('imageAnnouncementShown');
+        const now = Date.now();
+        const sevenDays = 7 * 24 * 60 * 60 * 1000;
+
+        if (shownThisSession) return; // already shown this tab
+        if (dismissedAt && (now - Number(dismissedAt)) < sevenDays) return; // snoozed
+
         // Remove any existing announcements first
         this.cleanup();
         
@@ -23,6 +32,7 @@ class SimpleImageAnnouncement {
         // Show after 5 seconds
         setTimeout(() => {
             this.showAnnouncement();
+            sessionStorage.setItem('imageAnnouncementShown', '1');
         }, 5000);
     }
 
@@ -46,19 +56,24 @@ class SimpleImageAnnouncement {
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: rgba(0,0,0,0.8);
+                background: rgba(10,15,20,0.6);
+                backdrop-filter: blur(3px);
+                -webkit-backdrop-filter: blur(3px);
                 z-index: 99999;
                 justify-content: center;
                 align-items: center;
-                padding: 10px;
+                padding: 16px;
             }
 
             #imageAnnouncementPopup {
-                background: transparent;
+                background: #0b1220;
                 position: relative;
                 width: 100%;
-                max-width: 500px;
-                animation: slideIn 0.3s ease-out;
+                max-width: 520px;
+                border-radius: 16px;
+                overflow: hidden;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+                animation: slideIn 0.28s ease-out;
             }
 
             @keyframes slideIn {
@@ -68,13 +83,13 @@ class SimpleImageAnnouncement {
 
             .imageCloseBtn {
                 position: absolute;
-                top: -10px;
-                right: -10px;
-                background: rgba(0,0,0,0.8);
+                top: 10px;
+                right: 10px;
+                background: rgba(0,0,0,0.7);
                 color: white;
-                border: none;
-                width: 35px;
-                height: 35px;
+                border: 1px solid rgba(255,255,255,0.2);
+                width: 36px;
+                height: 36px;
                 border-radius: 50%;
                 cursor: pointer;
                 z-index: 10;
@@ -83,6 +98,7 @@ class SimpleImageAnnouncement {
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                box-shadow: 0 8px 20px rgba(0,0,0,0.25);
             }
 
             .imageCloseBtn:hover {
@@ -93,14 +109,74 @@ class SimpleImageAnnouncement {
             .imageContainer {
                 width: 100%;
                 overflow: hidden;
-                border-radius: 8px;
                 background: transparent;
+                border-bottom-left-radius: 16px;
+                border-bottom-right-radius: 16px;
+            }
+
+            .announcementHeader {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                padding: 10px 12px 0 12px;
+            }
+
+            .announcementTag {
+                background: linear-gradient(135deg, rgba(0, 174, 255, 0.9), rgba(1, 99, 144, 0.9));
+                color: #fff;
+                padding: 6px 12px;
+                border-radius: 999px;
+                font-size: 0.8rem;
+                font-weight: 600;
+                box-shadow: 0 8px 20px rgba(0,174,255,0.25);
             }
 
             .announcementImage {
                 width: 100%;
                 height: auto;
                 display: block;
+            }
+
+            .announcementFooter {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                padding: 10px 12px 14px 12px;
+                background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
+            }
+
+            .announcementActions {
+                display: flex;
+                gap: 10px;
+                align-items: center;
+            }
+
+            .annBtn {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                padding: 10px 14px;
+                border-radius: 10px;
+                border: 1px solid rgba(255,255,255,0.15);
+                color: #fff;
+                font-weight: 600;
+                font-size: 0.9rem;
+                background: rgba(255,255,255,0.06);
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+            .annBtn:hover { background: rgba(255,255,255,0.12); }
+
+            .annLink {
+                background: transparent;
+                border: none;
+                color: #9db4ff;
+                text-decoration: underline;
+                cursor: pointer;
+                font-size: 0.85rem;
             }
 
             /* Ad counter for multiple ads */
@@ -154,30 +230,27 @@ class SimpleImageAnnouncement {
             /* Mobile First - Full width with auto height */
             @media (max-width: 768px) {
                 #imageAnnouncementOverlay {
-                    padding: 5px;
+                    padding: 10px;
                 }
                 
                 #imageAnnouncementPopup {
                     max-width: 100%;
                     margin: 0 auto;
-                }
-
-                .imageContainer {
-                    border-radius: 5px;
+                    border-radius: 14px;
                 }
 
                 .announcementImage {
                     width: 100%;
                     height: auto;
-                    max-height: 85vh;
+                    max-height: 75vh;
                     object-fit: cover;
                 }
 
                 .imageCloseBtn {
-                    top: -5px;
-                    right: -5px;
-                    width: 30px;
-                    height: 30px;
+                    top: 10px;
+                    right: 10px;
+                    width: 32px;
+                    height: 32px;
                     font-size: 16px;
                 }
 
@@ -210,11 +283,7 @@ class SimpleImageAnnouncement {
                 }
                 
                 #imageAnnouncementPopup {
-                    max-width: 600px;
-                }
-
-                .imageContainer {
-                    border-radius: 10px;
+                    max-width: 640px;
                 }
 
                 .announcementImage {
@@ -225,8 +294,8 @@ class SimpleImageAnnouncement {
                 }
 
                 .imageCloseBtn {
-                    top: -15px;
-                    right: -15px;
+                    top: 12px;
+                    right: 12px;
                     width: 40px;
                     height: 40px;
                     font-size: 20px;
@@ -310,12 +379,21 @@ class SimpleImageAnnouncement {
         const html = `
             <div id="imageAnnouncementOverlay">
                 <div id="imageAnnouncementPopup">
-                    <button class="imageCloseBtn" onclick="document.getElementById('imageAnnouncementOverlay').style.display='none'">×</button>
+                    <button class="imageCloseBtn" id="imageCloseBtn" aria-label="Close announcement">×</button>
                     ${this.ads.length > 1 ? '<div class="adCounter" id="adCounter">1/' + this.ads.length + '</div>' : ''}
-                    ${this.ads.length > 1 ? '<button class="navArrow prevArrow" id="prevArrow">‹</button>' : ''}
-                    ${this.ads.length > 1 ? '<button class="navArrow nextArrow" id="nextArrow">›</button>' : ''}
+                    ${this.ads.length > 1 ? '<button class="navArrow prevArrow" id="prevArrow" aria-label="Previous">‹</button>' : ''}
+                    ${this.ads.length > 1 ? '<button class="navArrow nextArrow" id="nextArrow" aria-label="Next">›</button>' : ''}
+                    <div class="announcementHeader">
+                        <div class="announcementTag"><i class="fas fa-bullhorn"></i> Latest</div>
+                    </div>
                     <div class="imageContainer">
-                        <img src="${this.ads[0]}" alt="SOSTTI Courses" class="announcementImage" id="announcementImage">
+                        <img src="${this.ads[0]}" alt="SOSTTI Announcement" class="announcementImage" id="announcementImage">
+                    </div>
+                    <div class="announcementFooter">
+                        <div class="announcementActions">
+                            <button class="annBtn" id="annLearnMore"><i class="fas fa-info-circle"></i> Learn more</button>
+                        </div>
+                        <button class="annLink" id="annDismiss">Don’t show again</button>
                     </div>
                 </div>
             </div>
@@ -327,6 +405,30 @@ class SimpleImageAnnouncement {
         if (this.ads.length > 1) {
             this.setupNavigation();
         }
+
+        // Interactions
+        const overlay = document.getElementById('imageAnnouncementOverlay');
+        const popup = document.getElementById('imageAnnouncementPopup');
+        const closeBtn = document.getElementById('imageCloseBtn');
+        const dismissBtn = document.getElementById('annDismiss');
+        const learnMoreBtn = document.getElementById('annLearnMore');
+
+        // Close handlers
+        const close = () => { overlay.style.display = 'none'; };
+        closeBtn?.addEventListener('click', close);
+        overlay?.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+
+        // Dismiss for 7 days
+        dismissBtn?.addEventListener('click', () => {
+            localStorage.setItem('imageAnnouncementDismissedAt', String(Date.now()));
+            close();
+        });
+
+        // Learn more (optional: navigate to info page if exists)
+        learnMoreBtn?.addEventListener('click', () => {
+            // Replace with a real URL if desired
+            window.location.href = 'pages/prospectus.html';
+        });
 
         // Preload images for better performance
         this.preloadImages();
@@ -365,6 +467,7 @@ class SimpleImageAnnouncement {
         const overlay = document.getElementById('imageAnnouncementOverlay');
         if (overlay) {
             overlay.style.display = 'flex';
+            document.body.classList.add('menu-open');
             console.log('✅ Image announcement shown after 5 seconds');
         }
     }
