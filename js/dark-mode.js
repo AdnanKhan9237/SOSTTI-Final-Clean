@@ -404,25 +404,48 @@ class DarkModeSidebar {
                 box-shadow: 0 5px 15px rgba(1, 99, 144, 0.3);
             }
 
-            /* Dark Mode Variables */
+            /* Theme Variables (light + dark) */
             :root {
+                /* Surfaces */
                 --bg-primary: #ffffff;
-                --bg-secondary: #f8f9fa;
-                --text-primary: #333333;
-                --text-secondary: #666666;
-                --accent-color: #00aaff;
-                --border-color: #e0e0e0;
+                --bg-secondary: #f6f8fb;
+                --surface: #ffffff;
+                /* Text */
+                --text-primary: #0f2d3a;
+                --text-secondary: #4a6675;
+                /* Brand */
+                --primary: #016390;
+                --primary-dark: #004e72;
+                --accent: #00aaff;
+                /* Misc */
+                --border-color: #e6eef3;
+                --light: #eef5f8;
+                --white: #ffffff;
+                --accent-color: var(--accent);
             }
 
             [data-theme="dark"] {
-                --bg-primary: #1a1a1a;
-                --bg-secondary: #2d2d2d;
-                --text-primary: #ffffff;
-                --text-secondary: #b0b0b0;
-                --accent-color: #00aaff;
-                --border-color: #404040;
-                --light: #2d2d2d;
-                --white: #1a1a1a;
+                /* Surfaces */
+                --bg-primary: #0e141a;
+                --bg-secondary: #121a23;
+                --surface: #0f1a23;
+                /* Text */
+                --text-primary: #e6f1f7;
+                --text-secondary: #a5bbc7;
+                /* Brand */
+                --primary: #0ea5c6;
+                --primary-dark: #0891b2;
+                --accent: #38bdf8;
+                /* Misc */
+                --border-color: #26333d;
+                --light: #15212b;
+                --white: #0f1a23;
+                --accent-color: var(--accent);
+            }
+
+            /* Smooth transitions */
+            html, body, header, .program-card, .dropdown-content, .resource-card, .meta-card, footer {
+                transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
             }
 
             /* Dark Mode Styles */
@@ -434,6 +457,7 @@ class DarkModeSidebar {
             [data-theme="dark"] header {
                 background-color: var(--bg-secondary);
                 border-bottom: 1px solid var(--border-color);
+                box-shadow: 0 2px 10px rgba(0,0,0,0.25);
             }
 
             [data-theme="dark"] .navbar {
@@ -445,16 +469,19 @@ class DarkModeSidebar {
             }
 
             [data-theme="dark"] .hero {
-                background-color: #0d2d42;
+                background: linear-gradient(135deg, var(--primary-dark), #0d2d42);
             }
 
             [data-theme="dark"] .programs {
                 background-color: var(--bg-secondary);
             }
 
-            [data-theme="dark"] .program-card {
-                background-color: var(--bg-primary);
+            [data-theme="dark"] .program-card,
+            [data-theme="dark"] .resource-card,
+            [data-theme="dark"] .meta-card {
+                background-color: var(--surface);
                 border: 1px solid var(--border-color);
+                box-shadow: 0 10px 24px rgba(0,0,0,0.25);
             }
 
             [data-theme="dark"] .program-card h3,
@@ -490,6 +517,7 @@ class DarkModeSidebar {
             [data-theme="dark"] .dropdown-content {
                 background-color: var(--bg-secondary);
                 border: 1px solid var(--border-color);
+                box-shadow: 0 12px 28px rgba(0,0,0,0.35);
             }
 
             [data-theme="dark"] .dropdown-content a {
@@ -533,18 +561,19 @@ class DarkModeSidebar {
             }
 
             [data-theme="dark"] .btn-details-outline {
-                border-color: var(--accent-color);
-                color: var(--accent-color);
+                border-color: var(--accent);
+                color: var(--accent);
             }
 
             [data-theme="dark"] .btn-details-outline:hover {
-                background-color: var(--accent-color);
+                background-color: var(--accent);
                 color: white;
             }
 
             /* Dark sidebar styles */
             [data-theme="dark"] .dark-mode-sidebar {
                 background: var(--bg-secondary);
+                box-shadow: -5px 0 25px rgba(0,0,0,0.35);
             }
 
             [data-theme="dark"] .sidebar-header h3 {

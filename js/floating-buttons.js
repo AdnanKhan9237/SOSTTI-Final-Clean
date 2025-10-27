@@ -10,7 +10,7 @@ function initializeFloatingButtons() {
     // Create and add WhatsApp button
     const whatsappButtonHTML = `
         <a href="https://wa.me/923332247494?text=Hello%20SOSTTI%2C%20I%20would%20like%20to%20get%20more%20information%20about%20your%20courses" 
-           target="_blank" 
+           target="_blank" rel="noopener"
            id="whatsappButton" 
            class="whatsapp-button" 
            aria-label="Contact us on WhatsApp">

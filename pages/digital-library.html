@@ -427,155 +427,42 @@
     <!-- Library Content -->
     <section class="library-content">
         <div class="container">
+            <!-- Search -->
+            <div class="search-section">
+                <div class="container">
+                    <div class="search-container">
+                        <div class="search-box">
+                            <input id="librarySearch" class="search-input" type="search" placeholder="Search books e.g., python, git, algorithms" aria-label="Search library">
+                            <button id="librarySearchBtn" class="search-btn" aria-label="Search"><i class="fas fa-search"></i></button>
+                        </div>
+                        <div class="quick-filters">
+                            <button class="filter-btn" data-filter="computer">Computer</button>
+                            <button class="filter-btn" data-filter="graphics">Graphic Design</button>
+                            <button class="filter-btn" data-filter="web">Web</button>
+                            <button class="filter-btn" data-filter="cyber">Cyber Security</button>
+                            <button class="filter-btn" data-filter="ai">Artificial Intelligence</button>
+                            <button class="filter-btn" data-filter="english">English</button>
+                            <button class="filter-btn" data-filter="auto">Automobile</button>
+                            <button class="filter-btn" data-filter="hvacr">HVACR</button>
+                            <button class="filter-btn" data-filter="welding">Welding</button>
+                            <button class="filter-btn" data-filter="motorcycle">Motorcycle</button>
+                            <button class="filter-btn" data-filter="machinist">Machinist/Turner</button>
+                            <button class="filter-btn" data-filter="electrician">Electrician</button>
+                            <button class="filter-btn" data-filter="mobile">Mobile Repair</button>
+                            <button class="filter-btn" data-filter="solar">UPS/Solar PV</button>
+                        </div>
+                        <div id="resultMeta" style="text-align:center; margin-top:10px; color:#666;"></div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Featured Resources -->
             <div class="featured-section">
                 <h2>Resources</h2>
                 <p class="section-subtitle">Handpicked resources for your learning journey</p>
                 
-                <div class="resources-grid">
-                    <!-- Resource 1 -->
-                    <div class="resource-card fade-in">
-                        <!-- <div class="resource-badge">New</div> -->
-                        <div class="resource-image">
-                            <i class="fas fa-laptop-code"></i>
-                        </div>
-                        <div class="resource-content">
-                            <!-- <div class="resource-meta">
-                                <span class="resource-type">E-book</span>
-                                <span><i class="fas fa-download"></i> 1.2K</span>
-                            </div> -->
-                            <h3>Complete Web Development Guide 2025</h3>
-                            <p>Comprehensive guide covering HTML5, CSS3, JavaScript, and modern frameworks.</p>
-                            <div class="resource-actions">
-                                <!-- <a href="#" class="action-btn btn-primary">
-                                    <i class="fas fa-book-open"></i> Read
-                                </a> -->
-                                <a href="#" class="action-btn btn-outline">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Resource 2 -->
-                    <div class="resource-card fade-in">
-                        <!-- <div class="resource-badge">Popular</div> -->
-                        <div class="resource-image">
-                            <i class="fas fa-database"></i>
-                        </div>
-                        <div class="resource-content">
-                            <!-- <div class="resource-meta">
-                                <span class="resource-type">Video Course</span>
-                                <span><i class="fas fa-eye"></i> 3.4K</span>
-                            </div> -->
-                            <h3>Database Management Systems</h3>
-                            <p>Complete video series on SQL, database design, and administration.</p>
-                            <div class="resource-actions">
-                                <!-- <a href="#" class="action-btn btn-primary">
-                                    <i class="fas fa-play"></i> Watch
-                                </a> -->
-                                <a href="#" class="action-btn btn-outline">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Resource 3 -->
-                    <div class="resource-card fade-in">
-                        <div class="resource-image">
-                            <i class="fas fa-cogs"></i>
-                        </div>
-                        <div class="resource-content">
-                            <!-- <div class="resource-meta">
-                                <span class="resource-type">Research Paper</span>
-                                <span><i class="fas fa-download"></i> 856</span>
-                            </div> -->
-                            <h3>Advanced Mechanical Engineering</h3>
-                            <p>Latest research in mechanical systems and automation technologies.</p>
-                            <div class="resource-actions">
-                                <!-- <a href="#" class="action-btn btn-primary">
-                                    <i class="fas fa-book-open"></i> Read
-                                </a> -->
-                                <a href="#" class="action-btn btn-outline">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="resources-grid">
-                    <!-- Resource 4 -->
-                    <div class="resource-card fade-in">
-                        <!-- <div class="resource-badge">New</div> -->
-                        <div class="resource-image">
-                            <i class="fas fa-laptop-code"></i>
-                        </div>
-                        <div class="resource-content">
-                            <!-- <div class="resource-meta">
-                                <span class="resource-type">E-book</span>
-                                <span><i class="fas fa-download"></i> 1.2K</span>
-                            </div> -->
-                            <h3>Complete Web Development Guide 2025</h3>
-                            <p>Comprehensive guide covering HTML5, CSS3, JavaScript, and modern frameworks.</p>
-                            <div class="resource-actions">
-                                <!-- <a href="#" class="action-btn btn-primary">
-                                    <i class="fas fa-book-open"></i> Read
-                                </a> -->
-                                <a href="#" class="action-btn btn-outline">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Resource 5 -->
-                    <div class="resource-card fade-in">
-                        <!-- <div class="resource-badge">Popular</div> -->
-                        <div class="resource-image">
-                            <i class="fas fa-database"></i>
-                        </div>
-                        <div class="resource-content">
-                            <!-- <div class="resource-meta">
-                                <span class="resource-type">Video Course</span>
-                                <span><i class="fas fa-eye"></i> 3.4K</span>
-                            </div> -->
-                            <h3>Database Management Systems</h3>
-                            <p>Complete video series on SQL, database design, and administration.</p>
-                            <div class="resource-actions">
-                                <!-- <a href="#" class="action-btn btn-primary">
-                                    <i class="fas fa-play"></i> Watch
-                                </a> -->
-                                <a href="#" class="action-btn btn-outline">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Resource 6 -->
-                    <div class="resource-card fade-in">
-                        <div class="resource-image">
-                            <i class="fas fa-cogs"></i>
-                        </div>
-                        <div class="resource-content">
-                            <!-- <div class="resource-meta">
-                                <span class="resource-type">Research Paper</span>
-                                <span><i class="fas fa-download"></i> 856</span>
-                            </div> -->
-                            <h3>Advanced Mechanical Engineering</h3>
-                            <p>Latest research in mechanical systems and automation technologies.</p>
-                            <div class="resource-actions">
-                                <!-- <a href="#" class="action-btn btn-primary">
-                                    <i class="fas fa-book-open"></i> Read
-                                </a> -->
-                                <a href="#" class="action-btn btn-outline">
-                                    <i class="fas fa-download"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                <div id="resourcesContainer" class="resources-grid">
+                    <!-- Cards will be injected by digital-library.js -->
                 </div>
             </div>
 
@@ -591,5 +478,8 @@
 <script src="../js/floating-buttons.js"></script>
 <script src="../js/chatbot.js"></script>
 <script src="../js/dark-mode.js"></script>
+<script src="../js/resources-open-inline.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="../js/digital-library.js"></script>
 </body>
 </html>
