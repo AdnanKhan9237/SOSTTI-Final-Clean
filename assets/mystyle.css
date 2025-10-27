@@ -1279,6 +1279,50 @@ body.menu-open {
   }
 }
 
+/* Extra-small stacked table layout */
+@media (max-width: 576px) {
+  /* Keep the shift banner, hide column headers */
+  .courses-table thead tr:nth-child(2) { display: none; }
+  .courses-table thead tr:first-child th {
+    display: block;
+    text-align: center;
+    font-size: 1rem;
+  }
+
+  .courses-table-container { overflow-x: visible; }
+  .courses-table { min-width: 0; }
+
+  .courses-table,
+  .courses-table tbody,
+  .courses-table tr,
+  .courses-table td { display: block; width: 100%; }
+
+  .courses-table tr {
+    margin-bottom: 12px;
+    border: 1px solid var(--border-color, #e9ecef);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--white);
+  }
+
+  .courses-table td {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 12px 16px;
+  }
+
+  .courses-table td::before {
+    content: '';
+    flex: 0 0 45%;
+    color: var(--text-light);
+    font-weight: 600;
+  }
+  .courses-table td:nth-child(1)::before { content: 'Course Name'; }
+  .courses-table td:nth-child(2)::before { content: 'Duration'; }
+  .courses-table td:nth-child(3)::before { content: 'Days in a week'; }
+}
+
 .courses-table thead {
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
 }
