@@ -1,447 +1,193 @@
-// Simple Image Announcement - Full Width on Mobile
-class SimpleImageAnnouncement {
+class ImageAdCarousel {
     constructor() {
-        this.ads = this.getAds();
-        this.currentAdIndex = 0;
-        console.log('🖼️ Image Announcement Initialized with', this.ads.length, 'ads');
+        // ----- CONFIG -----
+        this.ads = [
+            'images/ads/ad1.jpg',   // change these
+            'images/ads/ad2.jpg'
+        ];
+        this.delay = 4000;                 // show after 4 s
+        this.current = 0;
+        // ------------------
+
         this.init();
     }
 
-    getAds() {
-        return [
-            'images/ads/ad1.jpg',
-            'images/ads/ad2.jpg'
-        ];
-    }
-
     init() {
-        // Always show (no session gating)
-        this.cleanup();
-        this.createAnnouncement();
-        setTimeout(() => {
-            this.showAnnouncement();
-        }, 5000);
+        if (document.getElementById('ad-carousel-overlay')) return; // prevent duplicates
+
+        this.createStyles();
+        this.createHTML();
+        this.bindEvents();
+        this.preload();
+
+        setTimeout(() => this.show(), this.delay);
     }
 
-    cleanup() {
-        // Remove any existing overlay
-        const oldOverlay = document.getElementById('imageAnnouncementOverlay');
-        const oldStyles = document.getElementById('imageAnnouncementStyles');
-        
-        if (oldOverlay) oldOverlay.remove();
-        if (oldStyles) oldStyles.remove();
-    }
+    /* -------------------- CSS -------------------- */
+    createStyles() {
+        const s = document.createElement('style');
+        s.id = 'ad-carousel-styles';
+        s.textContent = `
+            #ad-carousel-overlay{
+                display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+                background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);
+                z-index:99999;justify-content:center;align-items:center;
+                padding:12px;animation:fadeIn .3s ease-out;
+            }
+            #ad-carousel-popup{
+                position:relative;width:100%;max-width:520px;
+                border-radius:16px;overflow:hidden;
+                box-shadow:0 10px 30px rgba(0,0,0,.3);
+                animation:scaleIn .3s ease-out;
+            }
+            #ad-carousel-img{
+                width:100%;height:auto;display:block;border-radius:16px;
+            }
+            .ad-close{
+                position:absolute;top:8px;right:8px;width:36px;height:36px;
+                background:rgba(0,0,0,.7);color:#fff;border:none;
+                border-radius:50%;font-size:20px;font-weight:bold;
+                cursor:pointer;display:flex;align-items:center;
+                justify-content:center;transition:all .2s;z-index:10;
+            }
+            .ad-close:hover,.ad-close:focus{
+                background:#000;transform:scale(1.1);
+            }
+            .ad-nav{
+                position:absolute;top:50%;transform:translateY(-50%);
+                background:rgba(0,0,0,.6);color:#fff;border:none;
+                width:40px;height:40px;border-radius:50%;font-size:22px;
+                cursor:pointer;display:flex;align-items:center;
+                justify-content:center;transition:all .2s;z-index:10;
+            }
+            .ad-nav:hover{background:rgba(0,0,0,.9);}
+            .ad-prev{left:12px;}
+            .ad-next{right:12px;}
+            .ad-dots{
+                position:absolute;bottom:12px;left:50%;transform:translateX(-50%);
+                display:flex;gap:8px;z-index:10;
+            }
+            .ad-dot{
+                width:9px;height:9px;background:rgba(255,255,255,.5);
+                border-radius:50%;cursor:pointer;transition:background .2s;
+            }
+            .ad-dot.active{background:#fff;}
 
-    createAnnouncement() {
-        // Add styles with mobile-first approach
-        const styles = `
-            <style id="imageAnnouncementStyles">
-            #imageAnnouncementOverlay {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: transparent; /* fully transparent behind the image */
-                z-index: 99999;
-                justify-content: center;
-                align-items: center;
-                padding: 16px;
+            /* NEW: Ad counter */
+            .ad-counter{
+                position:absolute;top:12px;left:12px;
+                background:rgba(0,0,0,.7);color:#fff;
+                padding:4px 10px;border-radius:12px;
+                font-size:13px;font-weight:600;z-index:10;
+                pointer-events:none;
             }
 
-            #imageAnnouncementPopup {
-                background: transparent; /* no background behind image */
-                position: relative;
-                width: 100%;
-                max-width: 520px;
-                border-radius: 16px;
-                overflow: visible;
-                box-shadow: none; /* no shadow box */
-                animation: slideIn 0.28s ease-out;
+            @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+            @keyframes scaleIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+
+            /* Mobile */
+            @media (max-width:768px){
+                #ad-carousel-popup{max-width:100%;border-radius:12px;}
+                #ad-carousel-img{border-radius:12px;}
+                .ad-close{width:32px;height:32px;font-size:18px;top:6px;right:6px;}
+                .ad-nav{width:36px;height:36px;font-size:20px;}
+                .ad-prev{left:8px;}
+                .ad-next{right:8px;}
+                .ad-counter{top:8px;left:8px;font-size:12px;padding:3px 8px;}
             }
-
-            @keyframes slideIn {
-                from { transform: scale(0.8); opacity: 0; }
-                to { transform: scale(1); opacity: 1; }
+            @media (max-width:360px){
+                #ad-carousel-overlay{padding:8px;}
+                .ad-close{width:28px;height:28px;font-size:16px;}
+                .ad-nav{width:30px;height:30px;font-size:18px;}
+                .ad-counter{top:6px;left:6px;font-size:11px;padding:2px 6px;}
             }
-
-            .imageCloseBtn {
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                background: rgba(0,0,0,0.7);
-                color: white;
-                border: 1px solid rgba(255,255,255,0.2);
-                width: 36px;
-                height: 36px;
-                border-radius: 50%;
-                cursor: pointer;
-                z-index: 10;
-                font-size: 18px;
-                font-weight: bold;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+            @media (max-height:500px) and (orientation:landscape){
+                #ad-carousel-img{max-height:85vh;object-fit:contain;}
             }
-
-            .imageCloseBtn:hover {
-                background: black;
-                transform: scale(1.1);
-            }
-
-            .imageContainer {
-                width: 100%;
-                overflow: hidden;
-                background: transparent;
-                border-bottom-left-radius: 16px;
-                border-bottom-right-radius: 16px;
-            }
-
-            .announcementHeader {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                gap: 12px;
-                padding: 10px 12px 0 12px;
-            }
-
-            .announcementTag {
-                background: linear-gradient(135deg, rgba(0, 174, 255, 0.9), rgba(1, 99, 144, 0.9));
-                color: #fff;
-                padding: 6px 12px;
-                border-radius: 999px;
-                font-size: 0.8rem;
-                font-weight: 600;
-                box-shadow: 0 8px 20px rgba(0,174,255,0.25);
-            }
-
-            .announcementImage {
-                width: 100%;
-                height: auto;
-                display: block;
-            }
-
-            .announcementFooter {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                gap: 12px;
-                padding: 10px 12px 14px 12px;
-                background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
-            }
-
-            .announcementActions {
-                display: flex;
-                gap: 10px;
-                align-items: center;
-            }
-
-            .annBtn {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                gap: 8px;
-                padding: 10px 14px;
-                border-radius: 10px;
-                border: 1px solid rgba(255,255,255,0.15);
-                color: #fff;
-                font-weight: 600;
-                font-size: 0.9rem;
-                background: rgba(255,255,255,0.06);
-                cursor: pointer;
-                transition: all 0.2s ease;
-            }
-            .annBtn:hover { background: rgba(255,255,255,0.12); }
-
-            .annLink {
-                background: transparent;
-                border: none;
-                color: #9db4ff;
-                text-decoration: underline;
-                cursor: pointer;
-                font-size: 0.85rem;
-            }
-
-            /* Ad counter for multiple ads */
-            .adCounter {
-                position: absolute;
-                top: -10px;
-                left: -10px;
-                background: rgba(0,0,0,0.8);
-                color: white;
-                padding: 4px 8px;
-                border-radius: 12px;
-                font-size: 11px;
-                z-index: 10;
-            }
-
-            /* Navigation arrows for multiple ads */
-            .navArrow {
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                background: rgba(0,0,0,0.6);
-                color: white;
-                border: none;
-                width: 35px;
-                height: 35px;
-                border-radius: 50%;
-                cursor: pointer;
-                font-size: 16px;
-                display: none;
-                z-index: 10;
-            }
-
-            .navArrow:hover {
-                background: rgba(0,0,0,0.9);
-            }
-
-            .prevArrow {
-                left: -15px;
-            }
-
-            .nextArrow {
-                right: -15px;
-            }
-
-            #imageAnnouncementPopup:hover .navArrow {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            /* Mobile First - Full width with auto height */
-            @media (max-width: 768px) {
-                #imageAnnouncementOverlay {
-                    padding: 10px;
-                }
-                
-                #imageAnnouncementPopup {
-                    max-width: 100%;
-                    margin: 0 auto;
-                    border-radius: 14px;
-                }
-
-                .announcementImage {
-                    width: 100%;
-                    height: auto;
-                    max-height: 75vh;
-                    object-fit: cover;
-                }
-
-                .imageCloseBtn {
-                    top: 10px;
-                    right: 10px;
-                    width: 32px;
-                    height: 32px;
-                    font-size: 16px;
-                }
-
-                .adCounter {
-                    top: -5px;
-                    left: -5px;
-                    font-size: 10px;
-                    padding: 3px 6px;
-                }
-
-                .navArrow {
-                    width: 30px;
-                    height: 30px;
-                    font-size: 14px;
-                }
-
-                .prevArrow {
-                    left: -10px;
-                }
-
-                .nextArrow {
-                    right: -10px;
-                }
-            }
-
-            /* Desktop */
-            @media (min-width: 769px) {
-                #imageAnnouncementOverlay {
-                    padding: 20px;
-                }
-                
-                #imageAnnouncementPopup {
-                    max-width: 640px;
-                }
-
-                .announcementImage {
-                    width: 100%;
-                    height: auto;
-                    max-height: 80vh;
-                    object-fit: contain;
-                }
-
-                .imageCloseBtn {
-                    top: 12px;
-                    right: 12px;
-                    width: 40px;
-                    height: 40px;
-                    font-size: 20px;
-                }
-
-                .adCounter {
-                    top: -15px;
-                    left: -15px;
-                    font-size: 12px;
-                    padding: 5px 10px;
-                }
-
-                .navArrow {
-                    width: 40px;
-                    height: 40px;
-                    font-size: 18px;
-                }
-
-                .prevArrow {
-                    left: -20px;
-                }
-
-                .nextArrow {
-                    right: -20px;
-                }
-            }
-
-            /* Very small mobile devices */
-            @media (max-width: 360px) {
-                #imageAnnouncementOverlay {
-                    padding: 2px;
-                }
-                
-                .imageCloseBtn {
-                    top: -3px;
-                    right: -3px;
-                    width: 25px;
-                    height: 25px;
-                    font-size: 14px;
-                }
-
-                .adCounter {
-                    top: -3px;
-                    left: -3px;
-                    font-size: 9px;
-                    padding: 2px 5px;
-                }
-
-                .navArrow {
-                    width: 25px;
-                    height: 25px;
-                    font-size: 12px;
-                }
-
-                .prevArrow {
-                    left: -8px;
-                }
-
-                .nextArrow {
-                    right: -8px;
-                }
-            }
-
-            /* Landscape mode on mobile */
-            @media (max-height: 500px) and (orientation: landscape) {
-                .announcementImage {
-                    max-height: 90vh;
-                    object-fit: contain;
-                }
-            }
-            </style>
         `;
-        
-        document.head.insertAdjacentHTML('beforeend', styles);
-
-        // Add HTML
-        this.injectHTML();
+        document.head.appendChild(s);
     }
 
-    injectHTML() {
+    /* -------------------- HTML -------------------- */
+    createHTML() {
+        const dots = this.ads.map((_,i)=>`<div class="ad-dot${i===0?' active':''}" data-idx="${i}"></div>`).join('');
         const html = `
-            <div id="imageAnnouncementOverlay">
-                <div id="imageAnnouncementPopup">
-                    <button class="imageCloseBtn" id="imageCloseBtn" aria-label="Close announcement">×</button>
-                    ${this.ads.length > 1 ? '<div class="adCounter" id="adCounter">1/' + this.ads.length + '</div>' : ''}
-                    ${this.ads.length > 1 ? '<button class="navArrow prevArrow" id="prevArrow" aria-label="Previous">‹</button>' : ''}
-                    ${this.ads.length > 1 ? '<button class="navArrow nextArrow" id="nextArrow" aria-label="Next">›</button>' : ''}
-                    <div class="imageContainer">
-                        <img src="${this.ads[0]}" alt="SOSTTI Announcement" class="announcementImage" id="announcementImage">
-                    </div>
+            <div id="ad-carousel-overlay">
+                <div id="ad-carousel-popup">
+                    <button class="ad-close" aria-label="Close">×</button>
+                    <button class="ad-nav ad-prev" aria-label="Previous">‹</button>
+                    <button class="ad-nav ad-next" aria-label="Next">›</button>
+                    <img id="ad-carousel-img" src="${this.ads[0]}" alt="Ad">
+                    <div class="ad-dots">${dots}</div>
+                    <div class="ad-counter" id="ad-counter">${this.current + 1}/${this.ads.length}</div>
                 </div>
             </div>
         `;
-        
         document.body.insertAdjacentHTML('beforeend', html);
-        
-        // Setup navigation if multiple ads
-        if (this.ads.length > 1) {
-            this.setupNavigation();
-        }
+    }
 
-        // Interactions
-        const overlay = document.getElementById('imageAnnouncementOverlay');
-        const closeBtn = document.getElementById('imageCloseBtn');
+    /* -------------------- EVENTS -------------------- */
+    bindEvents() {
+        const overlay = document.getElementById('ad-carousel-overlay');
+        const img      = document.getElementById('ad-carousel-img');
+        const closeBtn = overlay.querySelector('.ad-close');
+        const prevBtn  = overlay.querySelector('.ad-prev');
+        const nextBtn  = overlay.querySelector('.ad-next');
+        const dots     = overlay.querySelectorAll('.ad-dot');
+        const counter  = document.getElementById('ad-counter');
 
-        // Close handlers
         const close = () => {
             overlay.style.display = 'none';
-            document.body.classList.remove('menu-open');
+            document.removeEventListener('keydown', keyHandler);
         };
-        closeBtn?.addEventListener('click', close);
-        overlay?.addEventListener('click', (e) => { if (e.target === overlay) close(); });
 
-        // Preload images for better performance
-        this.preloadImages();
+        const go = (dir) => {
+            this.current = (this.current + dir + this.ads.length) % this.ads.length;
+            img.src = this.ads[this.current];
+            dots.forEach((d,i)=>d.classList.toggle('active', i===this.current));
+            counter.textContent = `${this.current + 1}/${this.ads.length}`;
+        };
+
+        const keyHandler = (e) => {
+            if (e.key==='Escape') close();
+            if (e.key==='ArrowLeft') go(-1);
+            if (e.key==='ArrowRight') go(1);
+        };
+
+        closeBtn.addEventListener('click', close);
+        overlay.addEventListener('click', e=>{ if(e.target===overlay) close(); });
+        prevBtn.addEventListener('click', ()=>go(-1));
+        nextBtn.addEventListener('click', ()=>go(1));
+        dots.forEach(d=>d.addEventListener('click',()=>{ go(d.dataset.idx - this.current); }));
+
+        document.addEventListener('keydown', keyHandler);
+
+        // Touch swipe
+        let touchStartX = 0;
+        overlay.addEventListener('touchstart', e=>touchStartX=e.touches[0].clientX, {passive:true});
+        overlay.addEventListener('touchend', e=>{
+            const diff = touchStartX - e.changedTouches[0].clientX;
+            if (Math.abs(diff)>50) go(diff>0?1:-1);
+        }, {passive:true});
     }
 
-    setupNavigation() {
-        const prevArrow = document.getElementById('prevArrow');
-        const nextArrow = document.getElementById('nextArrow');
-        const image = document.getElementById('announcementImage');
-        const counter = document.getElementById('adCounter');
-
-        prevArrow.onclick = () => {
-            this.currentAdIndex = (this.currentAdIndex - 1 + this.ads.length) % this.ads.length;
-            image.src = this.ads[this.currentAdIndex];
-            counter.textContent = `${this.currentAdIndex + 1}/${this.ads.length}`;
-        };
-
-        nextArrow.onclick = () => {
-            this.currentAdIndex = (this.currentAdIndex + 1) % this.ads.length;
-            image.src = this.ads[this.currentAdIndex];
-            counter.textContent = `${this.currentAdIndex + 1}/${this.ads.length}`;
-        };
-    }
-
-    preloadImages() {
-        // Preload all images for smooth navigation
-        this.ads.forEach((adSrc, index) => {
-            if (index > 0) {
-                const img = new Image();
-                img.src = adSrc;
-            }
+    /* -------------------- PRELOAD -------------------- */
+    preload() {
+        this.ads.forEach(src=>{
+            const i = new Image();
+            i.src = src;
         });
     }
 
-    showAnnouncement() {
-        const overlay = document.getElementById('imageAnnouncementOverlay');
-        if (overlay) {
-            overlay.style.display = 'flex';
-            document.body.classList.add('menu-open');
-            console.log('✅ Image announcement shown after 5 seconds');
-        }
+    show() {
+        const o = document.getElementById('ad-carousel-overlay');
+        if (o) o.style.display = 'flex';
     }
 }
 
-// Wait for page to load and start
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        new SimpleImageAnnouncement();
-    });
-} else {
-    new SimpleImageAnnouncement();
+/* ----- AUTO START ----- */
+if (document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',()=>new ImageAdCarousel());
+}else{
+    new ImageAdCarousel();
 }
