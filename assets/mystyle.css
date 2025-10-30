@@ -261,173 +261,283 @@ header {
     margin-top: 30px;
 }
 
-/* ===================================================== */
-/* CERTIFICATE BUTTON & MODAL – MODERN & RESPONSIVE    */
-/* ===================================================== */
+/* ============================================================= */
+/*  SHARED STYLES – ACCREDITATION & REGISTRATION (FIXED)        */
+/* ============================================================= */
+
+.about,
+.registration {
+  background: var(--white);
+  padding: 80px 0;
+}
+
+/* Content flex */
+.about-content,
+.registration-content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+}
+
+/* Text */
+.about-text,
+.registration-text {
+  flex: 1;
+  text-align: center;
+}
+.about-text h2,
+.registration-text h2 {
+  font-size: 2.4rem;
+  margin-bottom: 25px;
+  color: var(--text);
+  position: relative;
+  display: inline-block;
+  padding-bottom: 15px;
+}
+.about-text h2::after,
+.registration-text h2::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: 2px;
+}
+.about-text p,
+.registration-text p {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  line-height: 1.8;
+  margin-bottom: 20px;
+  text-align: justify;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.about-text strong,
+.registration-text strong { color: var(--primary); font-weight:700; }
+
+/* IMAGE CONTAINERS (preview) */
+.about-image,
+.registration-image {
+  flex: 1;
+  max-width: 500px;
+  width: 100%;
+  height: 350px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--light), var(--white));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+.about-image:hover,
+.registration-image:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,174,255,.15);
+}
+.about-image img,
+.registration-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,.1);
+  transition: var(--transition);
+}
+
+/* ============================================================= */
+/*  CERTIFICATE BUTTON                                           */
+/* ============================================================= */
 
 .btn-certificate {
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: white;
-    border: none;
-    padding: 14px 32px;
-    font-weight: 600;
-    border-radius: 50px;
-    box-shadow: 0 4px 15px rgba(0, 174, 255, 0.3);
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1rem;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  font-weight: 600;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(0,174,255,.3);
+  transition: all .3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
 }
-
 .btn-certificate:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 174, 255, 0.4);
-    color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,174,255,.4);
+  color: white;
 }
 
-/* Modal Overlay */
+/* ============================================================= */
+/*  CERTIFICATE MODAL                                            */
+/* ============================================================= */
+
 .certificate-modal {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(8px);
-    z-index: 9999;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    overflow: auto;
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.85);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
-
-.certificate-modal.active {
-    display: flex;
-}
+.certificate-modal.active { display: flex; }
 
 .modal-content {
-    background: white;
-    border-radius: 20px;
-    max-width: 900px;
-    width: 100%;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-    animation: popIn 0.4s ease;
+  background: white;
+  border-radius: 20px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 95vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,.3);
+  animation: popIn .4s ease;
+  display: flex;
+  flex-direction: column;
 }
-
 @keyframes popIn {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
+  from { opacity:0; transform:scale(.9); }
+  to   { opacity:1; transform:scale(1); }
 }
 
 .modal-header {
-    padding: 20px 25px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  padding: 20px 25px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-
-.modal-header h3 {
-    margin: 0;
-    font-size: 1.4rem;
-    font-weight: 600;
-}
-
+.modal-header h3 { margin:0; font-size:1.4rem; font-weight:600; }
 .close-modal {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.8rem;
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: 0.3s;
+  background:none; border:none; color:white; font-size:1.8rem;
+  width:40px; height:40px; display:flex; align-items:center; justify-content:center;
+  border-radius:50%; cursor:pointer; transition:.3s;
 }
-
-.close-modal:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
+.close-modal:hover { background:rgba(255,255,255,.2); }
 
 .modal-body {
-    padding: 20px;
-    text-align: center;
-    background: #f9f9f9;
+  flex: 1;
+  padding: 20px;
+  background:#f9f9f9;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:auto;
 }
-
 #modalImage {
-    max-width: 100%;
-    max-height: 80vh;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease;
+  max-width:100%;
+  max-height:65vh;
+  width:auto;
+  height:auto;
+  border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,0,0,.15);
+  transition:transform .3s ease;
 }
 
 .modal-footer {
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-    background: #f1f1f1;
-    border-top: 1px solid #eee;
+  padding:20px;
+  background:#f1f1f1;
+  border-top:1px solid #eee;
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  flex-wrap:wrap;
 }
-
 .btn-download {
-    background: var(--accent);
-    color: white;
-    padding: 12px 24px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
+  background:var(--accent);
+  color:white;
+  padding:12px 24px;
+  border-radius:50px;
+  text-decoration:none;
+  font-weight:600;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  box-shadow:0 4px 15px rgba(0,188,212,.3);
 }
-
-.btn-download:hover {
-    background: #00a0b0;
-    transform: translateY(-2px);
-}
+.btn-download:hover { background:#00a0b0; transform:translateY(-2px); }
 
 .btn-zoom {
-    background: white;
-    color: var(--primary-dark);
-    border: 2px solid var(--primary);
-    padding: 10px 20px;
-    border-radius: 50px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s;
+  background:white;
+  color:var(--primary-dark);
+  border:2px solid var(--primary);
+  padding:10px 20px;
+  border-radius:50px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.3s;
+}
+.btn-zoom:hover { background:var(--primary); color:white; }
+
+/* ============================================================= */
+/*  RESPONSIVE (both sections & modal)                          */
+/* ============================================================= */
+
+@media (min-width:768px) {
+  .about-content,
+  .registration-content {
+    flex-direction:row;
+    gap:60px;
+    text-align:left;
+  }
+  .about-text,
+  .registration-text { text-align:left; }
+  .about-text h2::after,
+  .registration-text h2::after { left:0; transform:none; }
+  .about-image,
+  .registration-image { height:400px; order:2; }
+  .about-text h2,
+  .registration-text h2 { font-size:2.6rem; }
+}
+@media (min-width:992px) {
+  .about-content,
+  .registration-content { gap:80px; }
+  .about-image,
+  .registration-image { height:420px; max-width:550px; }
+  .about-text h2,
+  .registration-text h2 { font-size:2.8rem; }
+  .about-text p,
+  .registration-text p { font-size:1.15rem; }
+}
+@media (min-width:1200px) {
+  .about-image,
+  .registration-image { height:450px; }
+}
+@media (max-width:767px) {
+  .about,
+  .registration { padding:60px 0; }
+  .about-image,
+  .registration-image { height:280px; }
+  .about-text h2,
+  .registration-text h2 { font-size:2rem; }
+}
+@media (max-width:480px) {
+  .about-image,
+  .registration-image { height:250px; }
+  .about-text h2,
+  .registration-text h2 { font-size:1.8rem; }
 }
 
-.btn-zoom:hover {
-    background: var(--primary);
-    color: white;
-}
-
-/* Responsive Modal */
-@media (max-width: 768px) {
-    .modal-content {
-        margin: 10px;
-        border-radius: 16px;
-    }
-    .modal-header h3 {
-        font-size: 1.2rem;
-    }
-    .modal-footer {
-        flex-direction: column;
-    }
-    .btn-download, .btn-zoom {
-        width: 100%;
-        justify-content: center;
-    }
+/* Modal mobile */
+@media (max-width:768px) {
+  .modal-content { margin:10px; border-radius:16px; }
+  .modal-header h3 { font-size:1.2rem; }
+  .modal-footer { flex-direction:column; }
+  .btn-download,
+  .btn-zoom { width:100%; justify-content:center; }
 }
 
 /* Programs Section */
