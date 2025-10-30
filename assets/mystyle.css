@@ -268,8 +268,6 @@ header {
 .about,
 .registration {
   background: var(--white);
-  position: relative;
-  z-index: 10000;  /* ← Higher than modal (9999) & header */
   padding: 80px 0;
 }
 
@@ -334,8 +332,6 @@ header {
   width: 100%;
   height: 350px;
   border-radius: 16px;
-  position: relative;
-  z-index: 10001;  /* ← Even higher for the image itself */
   overflow: hidden;
   background: linear-gradient(135deg, var(--light), var(--white));
   display: flex;
@@ -393,7 +389,6 @@ header {
 .certificate-modal {
   display: none;
   position: fixed;
-  z-index: 9999;
   inset: 0;
   background: rgba(0,0,0,.92);
   backdrop-filter: blur(12px);
@@ -427,7 +422,6 @@ header {
 
 .modal-header {
   padding: 18px 22px;
-  z-index: 10002;
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   color: white;
   display: flex;
@@ -587,42 +581,24 @@ header {
 }
 
 /* ============================================================= */
-/*  MODAL BODY – ENABLE SCROLL WHEN ZOOMED                     */
+/*  BLOCK DOWNLOAD & DRAG (MAX SECURITY)                        */
 /* ============================================================= */
 
+#modalImage,
 .modal-body {
-  flex: 1;
-  padding: 20px;
-  background: #fafafa;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: auto;                 /* ← ENABLE SCROLL */
-  min-height: 200px;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch; /* Smooth on iOS */
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: auto;
 }
 
-/* Image container wrapper – for centering when small */
-.modal-body::before {
-  content: '';
-  display: inline-block;
-  height: 100%;
-  vertical-align: middle;
-}
-
-#modalImage {
-  max-width: 100%;
-  max-height: none;               /* ← Allow full height when zoomed */
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  border-radius: 12px;
-  box-shadow: 0 12px 35px rgba(0,0,0,.18);
-  transition: transform .3s ease;
-  display: inline-block;
-  vertical-align: middle;
-  transform-origin: center center;
+/* Block right-click */
+#modalImage { 
+  -webkit-user-select: none; 
+  -moz-user-select: none; 
+  -ms-user-select: none; 
+  user-select: none; 
 }
 
 /* Block print */
