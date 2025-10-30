@@ -10,22 +10,17 @@ function initVideoPlayer() {
     const loadingText = videoWrapper.querySelector('.loading-text');
     const volumeBtn = videoWrapper.querySelector('.volume');
     const progressContainer = videoWrapper.querySelector('.progress-bar');
-    
+
     // Create fullscreen button if it doesn't exist
     let fullscreenBtn = videoWrapper.querySelector('.fullscreen-btn');
     if (!fullscreenBtn) {
         fullscreenBtn = document.createElement('button');
-        fullscreenBtn.className = 'fullscreen-btn';
-        fullscreenBtn.textContent = '⛶';
-        fullscreenBtn.style.background = 'none';
-        fullscreenBtn.style.border = 'none';
-        fullscreenBtn.style.color = 'white';
-        fullscreenBtn.style.fontSize = '16px';
-        fullscreenBtn.style.cursor = 'pointer';
-        fullscreenBtn.style.padding = '5px';
+        fullscreenBtn.className = 'fullscreen-btn control-btn';
+        fullscreenBtn.setAttribute('aria-label', 'Toggle fullscreen');
+        fullscreenBtn.innerHTML = '⛶';
         
-        // Find controls container or create one
-        const controlsContainer = videoWrapper.querySelector('.video-controls') || progressContainer.parentElement;
+        // Find controls container and add fullscreen button
+        const controlsContainer = videoWrapper.querySelector('.video-controls');
         if (controlsContainer) {
             controlsContainer.appendChild(fullscreenBtn);
         }
@@ -118,6 +113,14 @@ function initVideoPlayer() {
         showControlsTemporarily();
     }
 
+    function handleFullscreenChange() {
+        if (document.fullscreenElement) {
+            fullscreenBtn.innerHTML = '⛷';
+        } else {
+            fullscreenBtn.innerHTML = '⛶';
+        }
+    }
+
     // Event listeners
     playPauseBtn.addEventListener('click', togglePlayPause);
     video.addEventListener('click', togglePlayPause);
@@ -125,6 +128,11 @@ function initVideoPlayer() {
     progressContainer.addEventListener('click', setProgress);
     volumeBtn.addEventListener('click', toggleVolume);
     fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+    // Fullscreen change events
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('msfullscreenchange', handleFullscreenChange);
 
     video.addEventListener('loadeddata', function() {
         videoWrapper.classList.remove('loading');
