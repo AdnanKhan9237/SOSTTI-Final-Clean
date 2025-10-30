@@ -111,7 +111,8 @@
 
             <div class="video-wrapper loading">
                 <div class="loading-text">Loading Video...</div>
-                <button class="play-pause-btn" aria-label="Play/Pause">▶</button>
+                <!-- REMOVE THIS CENTERED BUTTON -->
+                <!-- <button class="play-pause-btn" aria-label="Play/Pause">▶</button> -->
 
                 <video playsinline preload="auto" aria-label="Campus tour video">
                     <source src="videos/SOSTTI-Video.mp4" type="video/mp4">
@@ -119,11 +120,14 @@
                 </video>
 
                 <div class="video-controls">
+                    <!-- ADD PLAY/PAUSE BUTTON HERE IN CONTROLS -->
+                    <button class="control-btn play-pause-btn" aria-label="Play/Pause">▶</button>
+                    <div class="time-display">0:00 / 0:00</div>
                     <div class="progress-bar">
                         <div class="progress"></div>
                     </div>
-                    <div class="time-display">0:00 / 0:00</div>
                     <button class="control-btn volume" aria-label="Toggle volume">🔊</button>
+                    <!-- Fullscreen button will be added by JavaScript -->
                 </div>
             </div>
         </div>
