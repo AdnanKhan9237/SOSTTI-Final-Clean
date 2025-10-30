@@ -105,7 +105,7 @@
           box-shadow:0 12px 35px rgba(0,0,0,.18);
           transition:transform .3s ease;
           transform-origin:center;
-          margin-top: 50px;     /* PUSH IMAGE DOWN */
+          margin-top: 150px;     /* PUSH IMAGE DOWN */
           margin-bottom: 50px;  /* BALANCE BOTTOM */
         }
 
