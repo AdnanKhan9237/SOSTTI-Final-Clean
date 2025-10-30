@@ -1,7 +1,10 @@
 // Video Player Functionality
 function initVideoPlayer() {
     const videoWrapper = document.querySelector('.video-wrapper');
-    if (!videoWrapper) return;
+    if (!videoWrapper) {
+        console.log('Video wrapper not found');
+        return;
+    }
 
     const video = videoWrapper.querySelector('video');
     const playPauseBtn = videoWrapper.querySelector('.play-pause-btn');
@@ -11,7 +14,13 @@ function initVideoPlayer() {
     const volumeBtn = videoWrapper.querySelector('.volume');
     const progressContainer = videoWrapper.querySelector('.progress-bar');
 
-    // Create fullscreen button if it doesn't exist
+    // Check if all elements exist
+    if (!video || !playPauseBtn || !progressBar || !timeDisplay || !loadingText || !volumeBtn || !progressContainer) {
+        console.log('Missing video elements');
+        return;
+    }
+
+    // Create fullscreen button
     let fullscreenBtn = videoWrapper.querySelector('.fullscreen-btn');
     if (!fullscreenBtn) {
         fullscreenBtn = document.createElement('button');
@@ -19,7 +28,6 @@ function initVideoPlayer() {
         fullscreenBtn.setAttribute('aria-label', 'Toggle fullscreen');
         fullscreenBtn.innerHTML = '⛶';
         
-        // Find controls container and add fullscreen button
         const controlsContainer = videoWrapper.querySelector('.video-controls');
         if (controlsContainer) {
             controlsContainer.appendChild(fullscreenBtn);
@@ -31,13 +39,14 @@ function initVideoPlayer() {
     let hidePlayButtonTimeout;
 
     function formatTime(seconds) {
+        if (isNaN(seconds)) return '0:00';
         const mins = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
         return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
 
     function updateProgress() {
-        if (video.duration) {
+        if (video.duration && !isNaN(video.duration)) {
             const percent = (video.currentTime / video.duration) * 100;
             progressBar.style.width = `${percent}%`;
             timeDisplay.textContent = `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
@@ -48,14 +57,18 @@ function initVideoPlayer() {
         videoWrapper.classList.add('controls-visible');
         clearTimeout(hideControlsTimeout);
         hideControlsTimeout = setTimeout(() => {
-            if (isPlaying) videoWrapper.classList.remove('controls-visible');
+            if (isPlaying) {
+                videoWrapper.classList.remove('controls-visible');
+            }
         }, 3000);
     }
 
     function hidePlayButton() {
         clearTimeout(hidePlayButtonTimeout);
         hidePlayButtonTimeout = setTimeout(() => {
-            if (isPlaying) playPauseBtn.classList.add('hidden');
+            if (isPlaying) {
+                playPauseBtn.classList.add('hidden');
+            }
         }, 500);
     }
 
@@ -70,20 +83,29 @@ function initVideoPlayer() {
             playPauseBtn.textContent = '▶';
             showPlayButton();
         } else {
-            video.play().catch(e => console.log('Play failed:', e));
-            playPauseBtn.textContent = '❚❚';
-            hidePlayButton();
+            video.play().then(() => {
+                isPlaying = true;
+                playPauseBtn.textContent = '❚❚';
+                hidePlayButton();
+            }).catch(error => {
+                console.log('Play failed:', error);
+                showPlayButton();
+            });
         }
         isPlaying = !isPlaying;
         showControlsTemporarily();
     }
 
     function setProgress(e) {
+        const rect = this.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
         const width = this.clientWidth;
-        const clickX = e.offsetX;
         const duration = video.duration;
-        video.currentTime = (clickX / width) * duration;
-        showControlsTemporarily();
+        
+        if (duration && !isNaN(duration)) {
+            video.currentTime = (clickX / width) * duration;
+            showControlsTemporarily();
+        }
     }
 
     function toggleVolume() {
@@ -122,9 +144,15 @@ function initVideoPlayer() {
     }
 
     // Event listeners
-    playPauseBtn.addEventListener('click', togglePlayPause);
+    playPauseBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        togglePlayPause();
+    });
+    
     video.addEventListener('click', togglePlayPause);
     video.addEventListener('timeupdate', updateProgress);
+    video.addEventListener('progress', updateProgress);
+    
     progressContainer.addEventListener('click', setProgress);
     volumeBtn.addEventListener('click', toggleVolume);
     fullscreenBtn.addEventListener('click', toggleFullscreen);
@@ -137,18 +165,37 @@ function initVideoPlayer() {
     video.addEventListener('loadeddata', function() {
         videoWrapper.classList.remove('loading');
         loadingText.classList.add('hidden');
-        timeDisplay.textContent = `0:00 / ${formatTime(video.duration)}`;
+        
+        if (video.duration && !isNaN(video.duration)) {
+            timeDisplay.textContent = `0:00 / ${formatTime(video.duration)}`;
+        }
+        
+        // Auto-play with error handling
         video.play().then(() => {
             isPlaying = true;
             playPauseBtn.textContent = '❚❚';
             hidePlayButton();
-        }).catch(() => showPlayButton());
+        }).catch(error => {
+            console.log('Auto-play failed:', error);
+            showPlayButton();
+            isPlaying = false;
+            playPauseBtn.textContent = '▶';
+        });
     });
 
     video.addEventListener('ended', () => {
         isPlaying = false;
         playPauseBtn.textContent = '▶';
         showPlayButton();
+        videoWrapper.classList.remove('controls-visible');
+    });
+
+    video.addEventListener('waiting', () => {
+        videoWrapper.classList.add('loading');
+    });
+
+    video.addEventListener('canplay', () => {
+        videoWrapper.classList.remove('loading');
     });
 
     videoWrapper.addEventListener('mousemove', () => {
@@ -165,6 +212,14 @@ function initVideoPlayer() {
         }
     });
 
+    // Keyboard controls
+    videoWrapper.addEventListener('keydown', (e) => {
+        if (e.code === 'Space') {
+            e.preventDefault();
+            togglePlayPause();
+        }
+    });
+
     // Fallback: remove loading after 5s
     setTimeout(() => {
         if (videoWrapper.classList.contains('loading')) {
@@ -174,20 +229,13 @@ function initVideoPlayer() {
     }, 5000);
 }
 
-// Video responsive fix
-function fixVideoResponsive() {
-    const videoWrapper = document.querySelector('.video-wrapper');
-    if (videoWrapper) {
-        const iframe = videoWrapper.querySelector('iframe');
-        if (iframe) {
-            iframe.removeAttribute('height');
-            iframe.style.height = '100%';
-        }
-    }
-}
-
 // Initialize when page loads
-window.addEventListener('load', function() {
+document.addEventListener('DOMContentLoaded', function() {
     initVideoPlayer();
-    fixVideoResponsive();
+});
+
+// Also initialize on window load as backup
+window.addEventListener('load', function() {
+    // Re-initialize in case video wasn't ready
+    setTimeout(initVideoPlayer, 100);
 });

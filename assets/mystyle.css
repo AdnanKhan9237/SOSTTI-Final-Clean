@@ -814,20 +814,48 @@ body.menu-open {
 }
 
 /* Video Wrapper */
+/* ===== VIDEO PLAYER STYLES ===== */
+.video-promo {
+    background: var(--white);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    padding: 40px;
+    margin: 50px 0;
+}
+
+.video-content {
+    text-align: center;
+}
+
+.video-content h2 {
+    font-size: 2.5rem;
+    color: var(--primary-dark);
+    margin-bottom: 20px;
+    font-weight: var(--font-weight-bold);
+}
+
+.video-content p {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 700px;
+    margin: 0 auto 40px;
+    line-height: 1.6;
+}
+
 .video-wrapper {
     position: relative;
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
-    border-radius: 12px;
+    border-radius: var(--border-radius);
     overflow: hidden;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-lg);
     background: #000;
     aspect-ratio: 16 / 9;
     cursor: pointer;
 }
 
-/* Video Element */
 .video-wrapper video {
     width: 100%;
     height: 100%;
@@ -860,15 +888,15 @@ body.menu-open {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: rgba(1, 99, 144, 0.9);
-    font-weight: 600;
+    color: var(--primary-dark);
+    font-weight: var(--font-weight-semibold);
     z-index: 3;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 12px 24px;
     border-radius: 30px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     opacity: 1;
-    transition: opacity 0.3s ease;
+    transition: var(--transition);
 }
 
 .loading-text.hidden {
@@ -876,7 +904,7 @@ body.menu-open {
     pointer-events: none;
 }
 
-/* Play/Pause Button */
+/* Play/Pause Button - Centered */
 .play-pause-btn {
     position: absolute;
     top: 50%;
@@ -889,10 +917,10 @@ body.menu-open {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: var(--text-on-dark);
     font-size: 28px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: var(--transition);
     z-index: 10;
     border: none;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -909,7 +937,7 @@ body.menu-open {
     pointer-events: none;
 }
 
-/* Video Controls Bar */
+/* Video Controls Bar - Bottom */
 .video-controls {
     position: absolute;
     bottom: 0;
@@ -921,7 +949,7 @@ body.menu-open {
     align-items: center;
     justify-content: space-between;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: var(--transition);
     z-index: 10;
 }
 
@@ -932,92 +960,144 @@ body.menu-open {
 
 .progress-bar {
     flex-grow: 1;
-    height: 5px;
+    height: 6px;
     background: rgba(255, 255, 255, 0.3);
     border-radius: 3px;
     margin: 0 15px;
     position: relative;
     cursor: pointer;
+    transition: height 0.2s ease;
+}
+
+.progress-bar:hover {
+    height: 8px;
 }
 
 .progress {
     height: 100%;
-    background: rgba(1, 99, 144, 0.9);
+    background: var(--primary-dark);
     border-radius: 3px;
     width: 0%;
+    transition: width 0.1s ease;
 }
 
 .time-display {
-    color: white;
+    color: var(--text-on-dark);
     font-size: 0.9rem;
     min-width: 100px;
     text-align: center;
+    font-weight: var(--font-weight-medium);
 }
 
 .control-btn {
     background: none;
     border: none;
-    color: white;
+    color: var(--text-on-dark);
     font-size: 1.2rem;
     cursor: pointer;
-    padding: 5px;
+    padding: 8px;
     border-radius: 50%;
     width: 36px;
     height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s ease;
+    transition: var(--transition);
 }
 
 .control-btn:hover {
     background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
 }
 
-/* Stats Section */
-.video-stats {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin-top: 40px;
-    flex-wrap: wrap;
+/* Fullscreen styles */
+.video-wrapper:fullscreen {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    border-radius: 0;
 }
 
-.stat {
-    background: white;
-    padding: 20px 25px;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-    text-align: center;
-    min-width: 150px;
-    border: 1px solid rgba(1, 99, 144, 0.1);
+.video-wrapper:-webkit-full-screen {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    border-radius: 0;
 }
 
-.stat-number {
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: rgba(1, 99, 144, 0.9);
-    display: block;
+.video-wrapper:-ms-fullscreen {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    border-radius: 0;
 }
 
-.stat-label {
-    font-size: 1rem;
-    color: #666;
-    margin-top: 8px;
-}
-
-/* Responsive */
+/* Responsive Video */
 @media (max-width: 768px) {
-    .video-content h2 { font-size: 2rem; }
-    .video-content p { font-size: 1.1rem; }
-    .play-pause-btn { width: 70px; height: 70px; font-size: 24px; }
+    .video-promo {
+        padding: 30px 20px;
+        margin: 30px 0;
+    }
+    
+    .video-content h2 {
+        font-size: 2rem;
+    }
+    
+    .video-content p {
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+    }
+    
+    .play-pause-btn {
+        width: 70px;
+        height: 70px;
+        font-size: 24px;
+    }
+    
+    .video-controls {
+        padding: 15px 10px 8px;
+    }
+    
+    .time-display {
+        font-size: 0.8rem;
+        min-width: 80px;
+    }
+    
+    .control-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+        padding: 6px;
+    }
 }
 
 @media (max-width: 576px) {
-    .video-content h2 { font-size: 1.8rem; }
-    .video-content p { font-size: 1rem; }
-    .play-pause-btn { width: 60px; height: 60px; font-size: 20px; }
-    .video-stats { flex-direction: column; align-items: center; gap: 15px; }
+    .video-content h2 {
+        font-size: 1.8rem;
+    }
+    
+    .video-content p {
+        font-size: 1rem;
+    }
+    
+    .play-pause-btn {
+        width: 60px;
+        height: 60px;
+        font-size: 20px;
+    }
+    
+    .video-controls {
+        padding: 12px 8px 6px;
+    }
+    
+    .progress-bar {
+        margin: 0 10px;
+    }
+    
+    .time-display {
+        font-size: 0.75rem;
+        min-width: 70px;
+    }
 }
 
 .announcement-popup-buttons {
