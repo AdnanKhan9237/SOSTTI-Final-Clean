@@ -262,44 +262,147 @@ header {
 }
 
 /* About Section */
-.about {
-    background: var(--white);
-}
+/* ==== Registration Section ==== */
+    .registration {
+      background: var(--white);
+      padding: 50px 0;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin: 20px auto;
+    }
 
-.about-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 50px;
-    align-items: center;
-}
+    .registration-content {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
 
-.about-text h2 {
-    font-size: 2.2rem;
-    margin-bottom: 20px;
-    color: var(--text);
-}
+    .registration-image,
+    .registration-text {
+      width: 100%;
+    }
 
-.about-text p {
-    margin-bottom: 20px;
-    color: var(--text-light);
-    hyphens: auto;
-    text-align: justify;
-}
+    .registration-image {
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background: #f0f0f0;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-.about-image {
-    border-radius: 8px;
-    box-shadow: var(--shadow);
-}
+    .registration-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 15px;
+      background: white;
+    }
 
-.about-image div {
-    width: 100%;
-    height: 400px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1.2rem;
-}
+    .registration-text h2 {
+      font-size: 1.8rem;
+      margin-bottom: 16px;
+      color: var(--text);
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .registration-text h2::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 50px;
+      height: 4px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    .registration-text p {
+      margin-bottom: 16px;
+      color: var(--text-light);
+      text-align: justify;
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .registration-text p:last-child {
+      margin-bottom: 0;
+    }
+
+    .registration-text strong {
+      color: var(--text);
+    }
+
+    /* ==== Responsive Breakpoints ==== */
+
+    /* Tablet & Up: Side-by-side */
+    @media (min-width: 768px) {
+      .container {
+        padding: 60px 0;
+      }
+
+      .registration {
+        padding: 60px 0;
+      }
+
+      .registration-content {
+        flex-direction: row;
+        gap: 50px;
+      }
+
+      .registration-image,
+      .registration-text {
+        flex: 1;
+      }
+
+      .registration-image {
+        height: 380px;
+      }
+
+      .registration-text h2 {
+        font-size: 2.1rem;
+      }
+
+      .registration-text p {
+        font-size: 1.05rem;
+      }
+    }
+
+    /* Desktop: Larger layout */
+    @media (min-width: 992px) {
+      .registration-content {
+        gap: 70px;
+      }
+
+      .registration-image {
+        height: 420px;
+      }
+
+      .registration-text h2 {
+        font-size: 2.4rem;
+      }
+
+      .registration-text p {
+        font-size: 1.1rem;
+      }
+    }
+
+    /* Extra Large Screens */
+    @media (min-width: 1200px) {
+      .registration-image {
+        height: 450px;
+      }
+    }
+
+    /* Optional: Image on right on large screens */
+    @media (min-width: 992px) {
+      .registration-content {
+        flex-direction: row-reverse; /* Text left, Image right */
+      }
+    }
 
 /* Programs Section */
 .programs {
