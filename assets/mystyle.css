@@ -904,52 +904,19 @@ body.menu-open {
     pointer-events: none;
 }
 
-/* Play/Pause Button - Centered */
-.play-pause-btn {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80px;
-    height: 80px;
-    background: rgba(1, 99, 144, 0.85);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-on-dark);
-    font-size: 28px;
-    cursor: pointer;
-    transition: var(--transition);
-    z-index: 10;
-    border: none;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    opacity: 1;
-}
-
-.play-pause-btn:hover {
-    background: rgba(1, 99, 144, 1);
-    transform: translate(-50%, -50%) scale(1.1);
-}
-
-.play-pause-btn.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-/* Video Controls Bar - Bottom */
+/* Video Controls Bar - Bottom (Like YouTube) */
 .video-controls {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-    padding: 20px 15px 10px;
+    padding: 15px 10px 8px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 10px;
     opacity: 0;
-    transition: var(--transition);
+    transition: opacity 0.3s ease;
     z-index: 10;
 }
 
@@ -958,12 +925,36 @@ body.menu-open {
     opacity: 1;
 }
 
+/* Play/Pause button in controls */
+.play-pause-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.play-pause-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.play-pause-btn.hidden {
+    display: none;
+}
+
 .progress-bar {
     flex-grow: 1;
     height: 6px;
     background: rgba(255, 255, 255, 0.3);
     border-radius: 3px;
-    margin: 0 15px;
     position: relative;
     cursor: pointer;
     transition: height 0.2s ease;
@@ -975,14 +966,14 @@ body.menu-open {
 
 .progress {
     height: 100%;
-    background: var(--primary-dark);
+    background: #ff0000; /* YouTube-like red */
     border-radius: 3px;
     width: 0%;
     transition: width 0.1s ease;
 }
 
 .time-display {
-    color: var(--text-on-dark);
+    color: white;
     font-size: 0.9rem;
     min-width: 100px;
     text-align: center;
@@ -992,10 +983,10 @@ body.menu-open {
 .control-btn {
     background: none;
     border: none;
-    color: var(--text-on-dark);
+    color: white;
     font-size: 1.2rem;
     cursor: pointer;
-    padding: 8px;
+    padding: 5px;
     border-radius: 50%;
     width: 36px;
     height: 36px;
@@ -1007,7 +998,6 @@ body.menu-open {
 
 .control-btn:hover {
     background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.1);
 }
 
 /* Fullscreen styles */
@@ -1048,14 +1038,8 @@ body.menu-open {
         margin-bottom: 30px;
     }
     
-    .play-pause-btn {
-        width: 70px;
-        height: 70px;
-        font-size: 24px;
-    }
-    
     .video-controls {
-        padding: 15px 10px 8px;
+        padding: 12px 8px 6px;
     }
     
     .time-display {
@@ -1067,36 +1051,6 @@ body.menu-open {
         width: 32px;
         height: 32px;
         font-size: 1rem;
-        padding: 6px;
-    }
-}
-
-@media (max-width: 576px) {
-    .video-content h2 {
-        font-size: 1.8rem;
-    }
-    
-    .video-content p {
-        font-size: 1rem;
-    }
-    
-    .play-pause-btn {
-        width: 60px;
-        height: 60px;
-        font-size: 20px;
-    }
-    
-    .video-controls {
-        padding: 12px 8px 6px;
-    }
-    
-    .progress-bar {
-        margin: 0 10px;
-    }
-    
-    .time-display {
-        font-size: 0.75rem;
-        min-width: 70px;
     }
 }
 
