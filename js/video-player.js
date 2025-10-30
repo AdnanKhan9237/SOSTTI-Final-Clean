@@ -10,6 +10,26 @@ function initVideoPlayer() {
     const loadingText = videoWrapper.querySelector('.loading-text');
     const volumeBtn = videoWrapper.querySelector('.volume');
     const progressContainer = videoWrapper.querySelector('.progress-bar');
+    
+    // Create fullscreen button if it doesn't exist
+    let fullscreenBtn = videoWrapper.querySelector('.fullscreen-btn');
+    if (!fullscreenBtn) {
+        fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'fullscreen-btn';
+        fullscreenBtn.textContent = '⛶';
+        fullscreenBtn.style.background = 'none';
+        fullscreenBtn.style.border = 'none';
+        fullscreenBtn.style.color = 'white';
+        fullscreenBtn.style.fontSize = '16px';
+        fullscreenBtn.style.cursor = 'pointer';
+        fullscreenBtn.style.padding = '5px';
+        
+        // Find controls container or create one
+        const controlsContainer = videoWrapper.querySelector('.video-controls') || progressContainer.parentElement;
+        if (controlsContainer) {
+            controlsContainer.appendChild(fullscreenBtn);
+        }
+    }
 
     let isPlaying = false;
     let hideControlsTimeout;
@@ -77,12 +97,34 @@ function initVideoPlayer() {
         showControlsTemporarily();
     }
 
+    function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            if (videoWrapper.requestFullscreen) {
+                videoWrapper.requestFullscreen();
+            } else if (videoWrapper.webkitRequestFullscreen) {
+                videoWrapper.webkitRequestFullscreen();
+            } else if (videoWrapper.msRequestFullscreen) {
+                videoWrapper.msRequestFullscreen();
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            }
+        }
+        showControlsTemporarily();
+    }
+
     // Event listeners
     playPauseBtn.addEventListener('click', togglePlayPause);
     video.addEventListener('click', togglePlayPause);
     video.addEventListener('timeupdate', updateProgress);
     progressContainer.addEventListener('click', setProgress);
     volumeBtn.addEventListener('click', toggleVolume);
+    fullscreenBtn.addEventListener('click', toggleFullscreen);
 
     video.addEventListener('loadeddata', function() {
         videoWrapper.classList.remove('loading');
