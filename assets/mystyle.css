@@ -581,24 +581,42 @@ header {
 }
 
 /* ============================================================= */
-/*  BLOCK DOWNLOAD & DRAG (MAX SECURITY)                        */
+/*  MODAL BODY – ENABLE SCROLL WHEN ZOOMED                     */
 /* ============================================================= */
 
-#modalImage,
 .modal-body {
-  -webkit-user-drag: none;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
-  pointer-events: auto;
+  flex: 1;
+  padding: 20px;
+  background: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;                 /* ← ENABLE SCROLL */
+  min-height: 200px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; /* Smooth on iOS */
 }
 
-/* Block right-click */
-#modalImage { 
-  -webkit-user-select: none; 
-  -moz-user-select: none; 
-  -ms-user-select: none; 
-  user-select: none; 
+/* Image container wrapper – for centering when small */
+.modal-body::before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+#modalImage {
+  max-width: 100%;
+  max-height: none;               /* ← Allow full height when zoomed */
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 12px 35px rgba(0,0,0,.18);
+  transition: transform .3s ease;
+  display: inline-block;
+  vertical-align: middle;
+  transform-origin: center center;
 }
 
 /* Block print */
