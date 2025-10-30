@@ -22,8 +22,6 @@ class TypingEffect {
     }
 
     init() {
-        console.log('⌨️ Clean TypingEffect initialized');
-        
         // Create fresh elements to avoid conflicts
         this.createCleanElements();
         this.waitForLoader();
@@ -51,8 +49,6 @@ class TypingEffect {
         // Append fresh elements
         typingContainer.appendChild(this.typingElement);
         typingContainer.appendChild(this.cursorElement);
-
-        console.log('✅ Created fresh typing elements');
     }
 
     waitForLoader() {
@@ -78,8 +74,6 @@ class TypingEffect {
             console.error('❌ Typing element not ready');
             return;
         }
-
-        console.log('🎬 Starting smooth typing effect');
         
         // Ensure elements are visible and ready
         this.typingElement.style.visibility = 'visible';
@@ -327,7 +321,6 @@ function initializeTypingEffect() {
     
     // Wait a bit longer for complete page load
     setTimeout(() => {
-        console.log('🚀 Starting clean typing effect...');
         window.typingInstance = new TypingEffect();
     }, 1500);
 }
