@@ -45,7 +45,6 @@ class ComponentManager {
             this.renderComponents(headerHTML, footerHTML);
             
         } catch (error) {
-            console.error('❌ Error loading components:', error);
             this.showErrorState();
         }
     }
@@ -78,7 +77,6 @@ class ComponentManager {
             this.fixComponentLinks(headerContainer, 'header');
             this.initializeNavigation();
         } else {
-            console.warn('⚠️ Header container not found');
         }
 
         // Render footer
@@ -87,7 +85,6 @@ class ComponentManager {
             footerContainer.innerHTML = footerHTML;
             this.fixComponentLinks(footerContainer, 'footer');
         } else {
-            console.warn('⚠️ Footer container not found');
         }
     }
 

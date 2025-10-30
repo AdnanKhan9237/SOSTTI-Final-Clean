@@ -31,7 +31,6 @@ class TypingEffect {
         // Find the typing container
         const typingContainer = document.querySelector('.typing-container');
         if (!typingContainer) {
-            console.error('❌ Typing container not found');
             return;
         }
 
@@ -71,7 +70,6 @@ class TypingEffect {
 
     start() {
         if (!this.typingElement) {
-            console.error('❌ Typing element not ready');
             return;
         }
         
