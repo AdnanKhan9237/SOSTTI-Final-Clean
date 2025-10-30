@@ -10,45 +10,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const MIN = 0.5;
   const MAX = 4;
 
-  // Open Modal
+  // Open
   document.querySelectorAll('.btn-certificate').forEach(btn => {
     btn.addEventListener('click', () => {
       img.src = btn.dataset.certificate;
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
-      resetScale();
+      scale = 1;
+      img.style.transform = 'scale(1)';
     });
   });
 
-  // Close Modal
+  // Close
   const close = () => {
     modal.classList.remove('active');
     document.body.style.overflow = '';
     img.src = '';
-    resetScale();
   };
   closeBtn.addEventListener('click', close);
   modal.addEventListener('click', e => { if (e.target === modal) close(); });
 
-  // Zoom Functions
-  const updateZoom = () => img.style.transform = `scale(${scale})`;
-
-  const resetScale = () => {
-    scale = 1;
-    updateZoom();
-  };
-
-  zoomIn.addEventListener('click', () => {
-    scale = Math.min(scale + STEP, MAX);
-    updateZoom();
-  });
-
-  zoomOut.addEventListener('click', () => {
-    scale = Math.max(scale - STEP, MIN);
-    updateZoom();
-  });
-
-  resetZoom.addEventListener('click', resetScale);
+  // Zoom
+  const update = () => img.style.transform = `scale(${scale})`;
+  zoomIn.addEventListener('click', () => { scale = Math.min(scale + STEP, MAX); update(); });
+  zoomOut.addEventListener('click', () => { scale = Math.max(scale - STEP, MIN); update(); });
+  resetZoom.addEventListener('click', () => { scale = 1; update(); });
 
   // Keyboard
   document.addEventListener('keydown', e => {
@@ -59,8 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === '0') resetZoom.click();
   });
 
-  // Block Right-Click & Drag
+  // Block download
   img.addEventListener('contextmenu', e => e.preventDefault());
   img.addEventListener('dragstart', e => e.preventDefault());
-  img.addEventListener('selectstart', e => e.preventDefault());
 });
