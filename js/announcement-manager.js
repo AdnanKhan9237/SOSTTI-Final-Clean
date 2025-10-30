@@ -9,7 +9,8 @@ class SimpleImageAnnouncement {
 
     getAds() {
         return [
-            'images/ads/ad1.jpg'
+            'images/ads/ad1.jpg',
+            'images/ads/ad2.jpg'
         ];
     }
 
