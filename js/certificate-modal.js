@@ -1,12 +1,12 @@
 // ===============================================
 // CERTIFICATE MODAL – FULLY SELF-CONTAINED
 // HTML + CSS + JS in one file
+// Image pushed down with top margin
 // ===============================================
 
 (() => {
   // === 1. INJECT HTML + CSS ===
   const injectModal = () => {
-    // --- HTML ---
     const modalHTML = `
       <div id="certificateModal" class="certificate-modal">
         <div class="modal-content">
@@ -26,7 +26,6 @@
       </div>
     `;
 
-    // --- CSS ---
     const modalCSS = `
       <style>
         /* MODAL CONTAINER */
@@ -66,7 +65,7 @@
         /* HEADER */
         .modal-header {
           padding: 18px 22px;
-          background: linear-gradient(135deg, #00aaff, #0077cc);
+          background: linear-gradient(135deg, var(--primary, #00aaff), var(--primary-dark, #0077cc));
           color: white;
           display: flex;
           justify-content: space-between;
@@ -106,6 +105,8 @@
           box-shadow:0 12px 35px rgba(0,0,0,.18);
           transition:transform .3s ease;
           transform-origin:center;
+          margin-top: 50px;     /* PUSH IMAGE DOWN */
+          margin-bottom: 50px;  /* BALANCE BOTTOM */
         }
 
         /* FOOTER – BUTTONS */
@@ -121,8 +122,8 @@
         }
         .btn-zoom {
           background:white;
-          color:#0077cc;
-          border:2.2px solid #0077cc;
+          color:var(--primary-dark, #0077cc);
+          border:2.2px solid var(--primary, #00aaff);
           padding:11px 22px;
           border-radius:50px;
           font-weight:600;
@@ -132,7 +133,7 @@
           min-width:100px;
         }
         .btn-zoom:hover {
-          background:#0077cc;
+          background:var(--primary, #00aaff);
           color:white;
           transform:translateY(-2px);
           box-shadow:0 6px 18px rgba(0,122,255,.3);
@@ -144,6 +145,7 @@
           .modal-header { padding:16px 20px; }
           .modal-header h3 { font-size:1.25rem; }
           .modal-body { padding:16px; }
+          #modalImage { margin-top: 40px; margin-bottom: 40px; }
         }
         @media (max-width:576px) {
           .certificate-modal { padding:10px; }
@@ -154,9 +156,10 @@
           .modal-body { padding:12px; }
           .modal-footer { padding:14px 16px; gap:10px; }
           .btn-zoom { padding:10px 18px; font-size:0.9rem; flex:1; min-width:80px; }
+          #modalImage { margin-top: 30px; margin-bottom: 30px; }
         }
 
-        /* BLOCK DOWNLOAD */
+        /* BLOCK DOWNLOAD & DRAG */
         #modalImage, .modal-body {
           -webkit-user-drag:none;
           -khtml-user-drag:none;
@@ -174,7 +177,6 @@
       </style>
     `;
 
-    // Inject into <body>
     document.body.insertAdjacentHTML('beforeend', modalHTML + modalCSS);
   };
 
@@ -219,7 +221,7 @@
     closeBtn.addEventListener('click', close);
     modal.addEventListener('click', e => { if (e.target === modal) close(); });
 
-    // Zoom
+    // Zoom + Auto-center
     const update = () => {
       img.style.transform = `scale(${scale})`;
       setTimeout(() => {
