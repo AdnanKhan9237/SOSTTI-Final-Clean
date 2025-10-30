@@ -9,7 +9,6 @@ class ComponentManager {
     }
 
     async init() {
-        console.log('🚀 ComponentManager initialized');
         await this.loadComponents();
     }
 
@@ -20,12 +19,6 @@ class ComponentManager {
     getBasePath() {
         const path = window.location.pathname;
         const segments = path.split('/').filter(segment => segment);
-        
-        console.log('📍 Path Analysis:', {
-            fullPath: path,
-            segments: segments,
-            currentFile: segments[segments.length - 1] || 'index.html'
-        });
 
         // Handle different directory levels
         if (path.includes('/pages/courses/')) {
@@ -42,7 +35,6 @@ class ComponentManager {
      */
     async loadComponents() {
         try {
-            console.log('📥 Loading components from:', this.basePath);
 
             // Load components in parallel for better performance
             const [headerHTML, footerHTML] = await Promise.all([
@@ -83,7 +75,6 @@ class ComponentManager {
         const headerContainer = document.getElementById('header-container');
         if (headerContainer) {
             headerContainer.innerHTML = headerHTML;
-            console.log('✅ Header loaded successfully');
             this.fixComponentLinks(headerContainer, 'header');
             this.initializeNavigation();
         } else {
@@ -94,7 +85,6 @@ class ComponentManager {
         const footerContainer = document.getElementById('footer-container');
         if (footerContainer) {
             footerContainer.innerHTML = footerHTML;
-            console.log('✅ Footer loaded successfully');
             this.fixComponentLinks(footerContainer, 'footer');
         } else {
             console.warn('⚠️ Footer container not found');
@@ -119,11 +109,6 @@ class ComponentManager {
             if (currentValue && !this.isAbsolutePath(currentValue)) {
                 const fixedPath = this.fixRelativePath(currentValue);
                 element.setAttribute(attribute, fixedPath);
-                
-                console.log(`🔗 Fixed ${componentType} ${attribute}:`, {
-                    from: currentValue,
-                    to: fixedPath
-                });
             }
         });
     }
@@ -192,7 +177,6 @@ class ComponentManager {
      */
     setupDarkMode() {
         // Dark mode will be initialized by dark-mode.js
-        console.log('🌓 Dark mode ready');
     }
 
     /**
@@ -399,7 +383,6 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("load", () => {
         setTimeout(() => {
             loader.classList.add("hidden");
-            console.log('✅ Loader hidden - typing effect should start soon');
             
             // Force start typing effect if it hasn't started
             setTimeout(() => {

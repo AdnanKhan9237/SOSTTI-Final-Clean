@@ -55,7 +55,7 @@ function initVideoPlayer() {
             video.pause();
             playPauseBtn.textContent = '▶';
         } else {
-            video.play().catch(e => console.log('Play failed:', e));
+            video.play().catch(e => console.log('', e));
             playPauseBtn.textContent = '❚❚';
         }
         isPlaying = !isPlaying;

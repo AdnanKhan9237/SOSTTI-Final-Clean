@@ -11,8 +11,6 @@ class DarkModeSidebar {
         this.loadPreference();
         this.createSidebar();
         this.applyMode();
-        
-        console.log('🌓 Sidebar Dark Mode initialized');
     }
 
     loadPreference() {
