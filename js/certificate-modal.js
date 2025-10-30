@@ -145,7 +145,7 @@
           .modal-header { padding:16px 20px; }
           .modal-header h3 { font-size:1.25rem; }
           .modal-body { padding:16px; }
-          #modalImage { margin-top: 40px; margin-bottom: 40px; }
+          #modalImage { margin-top: 140px; margin-bottom: 40px; }
         }
         @media (max-width:576px) {
           .certificate-modal { padding:10px; }
@@ -156,7 +156,7 @@
           .modal-body { padding:12px; }
           .modal-footer { padding:14px 16px; gap:10px; }
           .btn-zoom { padding:10px 18px; font-size:0.9rem; flex:1; min-width:80px; }
-          #modalImage { margin-top: 30px; margin-bottom: 30px; }
+          #modalImage { margin-top: 130px; margin-bottom: 30px; }
         }
 
         /* BLOCK DOWNLOAD & DRAG */
