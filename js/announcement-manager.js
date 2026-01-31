@@ -2,8 +2,7 @@ class ImageAdCarousel {
     constructor() {
         // ----- CONFIG -----
         this.ads = [
-            'images/ads/ad1.jpg',   // change these
-            'images/ads/ad2.jpg'
+            'images/ads/AllCoursers.jpg'
         ];
         this.delay = 4000;                 // show after 4 s
         this.current = 0;
