@@ -25,6 +25,10 @@ body {
     background-color: var(--white);
     overflow-x: hidden;
 }
+body::selection{
+    background-color: white;
+    color: var(--text);
+}
 
 h1, h2, h3, h4, h5 {
     font-family: 'Poppins', sans-serif;
